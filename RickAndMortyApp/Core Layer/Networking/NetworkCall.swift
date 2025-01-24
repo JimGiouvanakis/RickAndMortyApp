@@ -12,9 +12,10 @@ struct NetworkCall {
     
    
     
-    func fetchData(link: String) async throws -> Data {
+//    func fetchData(link: String) async throws -> Data {
+    func fetchData() async throws -> Data {
         
-        let url = URL(string: link)!
+        let url = URL(string: Constants.mainAPILink)!
         
         var request = URLRequest(url: url)
         

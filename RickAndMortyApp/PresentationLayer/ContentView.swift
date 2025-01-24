@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @StateObject var appViewModel = AppViewModel()
+    
     var body: some View {
         
         VStack {
@@ -19,8 +22,7 @@ struct ContentView: View {
         .padding()
         .onAppear() {
             Task {
-                let data = try await API().getData(link: Constants.mainAPILink)
-                print(data)
+                await appViewModel.getUrls()
             }
         }
     }
