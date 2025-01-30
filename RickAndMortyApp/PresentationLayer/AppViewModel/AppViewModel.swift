@@ -7,22 +7,26 @@
 
 import Foundation
 
+@MainActor
 class AppViewModel: ObservableObject {
     
     let useCase = UseCase()
     
+    @Published var urls: MainAPI = MainAPI(characters: "", locations: "", episodes: "")
+    
+    
     func getUrls() async {
         let urls = await useCase.execute()
-        
-        guard let urls = urls else { return }
-        
-        
-        
-        if urls == nil {
-            print("No data")
-        } else {
-            print(urls)
-        }
+//        self.urls  = await useCase.execute()
+                
+        self.urls = urls
+//        
+//        
+//        if urls == nil {
+//            print("No data")
+//        } else {
+//            print(urls)
+//        }
     }
     
 }

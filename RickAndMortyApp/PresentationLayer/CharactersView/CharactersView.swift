@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct CharactersView: View {
+    
+    var url: String
+    
     var body: some View {
         Text("123")
     }

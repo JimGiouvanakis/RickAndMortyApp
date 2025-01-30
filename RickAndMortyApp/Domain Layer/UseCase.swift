@@ -10,13 +10,14 @@ import Foundation
 struct UseCase {
     let repository = Repository()
     
-    func execute() async  -> APIEntity? {
-        guard let urls = await repository.getData() else { return nil }
+    func execute() async  -> MainAPI {
+        let urls = await repository.getData()
         return urls
     }
     
-    func executeEpisodeData() async  -> [EpisodeEntity]? {
-        guard let urls = await repository.getEpisodeData() else { return nil }
-        return urls
+    func executeEpisodeData() async  -> [Episode] {
+//        guard let episodes = await repository.getEpisodeData() else { return nil }
+        let episodes = await repository.getEpisodesData() 
+        return episodes
     }
 }

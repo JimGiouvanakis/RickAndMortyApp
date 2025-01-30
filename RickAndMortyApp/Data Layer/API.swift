@@ -9,28 +9,28 @@ import Foundation
 
 struct API {
     
-    func getData() async throws -> APIEntity {
+    func getData() async -> APIEntity? {
         
         do {
-            let data = try await NetworkCall().fetchData()
+            let data = try await NetworkCall().fetchData(link: Constants.mainAPILink)
             
             return try JSONDecoder().decode(APIEntity.self, from: data)
         } catch {
             print(error)
-            throw error
+            return nil
         }
         
     }
     
-    func getEpisodeData() async throws -> [EpisodeEntity] {
+    func getEpisodeData() async -> EpisodeEntity? {
         
         do {
-            let data = try await NetworkCall().fetchData()
+            let data = try await NetworkCall().fetchData(link: Constants.mainAPILink)
             
-            return try JSONDecoder().decode([EpisodeEntity].self, from: data)
+            return try JSONDecoder().decode(EpisodeEntity.self, from: data)
         } catch {
             print(error)
-            throw error
+            return nil
         }
         
     }

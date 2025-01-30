@@ -14,3 +14,9 @@ enum NetworkError: Error {
     case noData
     case degodingError
 }
+
+enum TabBarSelections {
+    case characters
+    case episodes
+    case locations
+}

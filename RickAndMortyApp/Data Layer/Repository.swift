@@ -11,32 +11,36 @@ struct Repository {
     
     let api =  API()
     
-    func getData() async -> APIEntity? {
-        do {
-            let result = try await api.getData()
-            return result
-        } catch let authErrors as NSError {
-                print(authErrors)
-            return nil
-            }
+    func getData() async -> MainAPI {
+            let result =  await api.getData()
+        
+        guard let result else { return MainAPI(characters: "", locations: "", episodes: "") }
+        
+            return mapRsponseToDomaineMainAPI(model: result)
     }
     
-    func getEpisodeData() async -> [EpisodeEntity]? {
-        do {
-            let result = try await api.getEpisodeData()
-            return result
-        } catch let authErrors as NSError {
-                print(authErrors)
-            return nil
-            }
+    private func mapRsponseToDomaineMainAPI(model: APIEntity) -> MainAPI {
+        return .init(entity: model)
     }
     
-    private func mapRsponseToDomaineEpisode(model: [EpisodeEntity]) -> [Episode] {
+    
+    func getEpisodesData() async -> [Episode] {
+            let episodes = await api.getEpisodeData()
+        
+        guard let episodes else { return [] }
+        
+            return mapRsponseToDomaineEpisode(model: episodes)
+    }
+    
+    private func mapRsponseToDomaineEpisode(model: EpisodeEntity) -> [Episode] {
         var episodes: [Episode] = []
-        for item in model {
-            episodes.append(.init(entity: item))
+        
+        guard let results = model.results else { return episodes }
+        
+        for episode in results {
+            episodes.append(.init(entity: episode))
         }
-        return nft
+        return episodes
     }
     
 }
