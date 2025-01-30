@@ -9,7 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject var appViewModel = AppViewModel()
+//    @StateObject var appViewModel = AppViewModel()
+    @StateObject var appViewModel: AppViewModel
     @State var tabSelection: TabBarSelections = .episodes
     
     
@@ -18,7 +19,7 @@ struct ContentView: View {
         VStack {
                 
             if tabSelection == .episodes {
-                EpisodesView(url: appViewModel.urls.episodes)
+                EpisodesView(episodes: appViewModel.episodes)
             } else if tabSelection == .locations {
                 LocationsView(url: appViewModel.urls.characters)
             } else if tabSelection == .characters {
@@ -30,14 +31,9 @@ struct ContentView: View {
         }
         .ignoresSafeArea()
         .padding()
-        .onAppear() {
-            Task {
-                await appViewModel.getUrls()
-            }
-        }
     }
 }
 
 #Preview {
-    ContentView()
+    SplashScreenView()
 }

@@ -7,13 +7,18 @@
 
 import Foundation
 
-class EpisodesViewModel {
+class EpisodesViewModel: ObservableObject {
     
-    func setup() async {
-        await getData()
-    }
-    
-    private func getData() async {
-        
-        }
-    }
+//    let useCase = UseCase()
+//    
+//    @Published var episodes: [Episode] = []
+//    
+//    func setup(url: String) async {
+//        await getData(url: url)
+//    }
+//    
+//    private func getData(url: String) async {
+//        let episodes = await useCase.executeEpisodeData(url: url)
+//        self.episodes = episodes
+//    }
+}

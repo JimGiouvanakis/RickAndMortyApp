@@ -15,9 +15,19 @@ struct UseCase {
         return urls
     }
     
-    func executeEpisodeData() async  -> [Episode] {
-//        guard let episodes = await repository.getEpisodeData() else { return nil }
-        let episodes = await repository.getEpisodesData() 
+    func executeEpisodeData(url: String) async  -> [Episode] {
+        let episodes = await repository.getEpisodesData(url: url)
         return episodes
     }
+    
+    func executeLocationData(url: String) async  -> [Location] {
+        let locations = await repository.getLocationData(url: url)
+        return locations
+    }
+    
+    func executeCharacterData(url: String) async  -> [Character] {
+        let characters = await repository.getCharactersData(url: url)
+        return characters
+    }
+    
 }

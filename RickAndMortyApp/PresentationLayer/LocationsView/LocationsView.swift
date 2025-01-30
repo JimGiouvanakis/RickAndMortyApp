@@ -11,11 +11,20 @@ struct LocationsView: View {
     
     var url: String
     
+    @StateObject var viewModel = LocationViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            ForEach(viewModel.locations, id: \.id) { location in
+                Text(location.name)
+            }
+        }
+        .onAppear {
+            Task { await viewModel.setup(url: url)}
+        }
     }
 }
 
-#Preview {
-    LocationsView()
-}
+//#Preview {
+//    ContentView()
+//}

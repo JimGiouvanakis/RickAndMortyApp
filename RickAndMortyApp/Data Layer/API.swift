@@ -22,17 +22,43 @@ struct API {
         
     }
     
-    func getEpisodeData() async -> EpisodeEntity? {
+    func getEpisodeData(url: String) async -> EpisodeEntity? {
         
         do {
-            let data = try await NetworkCall().fetchData(link: Constants.mainAPILink)
+            guard url != "" else { return nil }
+            let data = try await NetworkCall().fetchData(link: url)
             
             return try JSONDecoder().decode(EpisodeEntity.self, from: data)
         } catch {
             print(error)
             return nil
         }
+    }
+    
+    func getLocationData(url: String) async -> LocationEntity? {
         
+        do {
+            guard url != "" else { return nil }
+            let data = try await NetworkCall().fetchData(link: url)
+            
+            return try JSONDecoder().decode(LocationEntity.self, from: data)
+        } catch {
+            print(error)
+            return nil
+        }
+    }
+    
+    func getCharactersData(url: String) async -> CharactersEntity? {
+        
+        do {
+            guard url != "" else { return nil }
+            let data = try await NetworkCall().fetchData(link: url)
+            
+            return try JSONDecoder().decode(CharactersEntity.self, from: data)
+        } catch {
+            print(error)
+            return nil
+        }
     }
     
     

@@ -16,23 +16,23 @@ struct Repository {
         
         guard let result else { return MainAPI(characters: "", locations: "", episodes: "") }
         
-            return mapRsponseToDomaineMainAPI(model: result)
+            return mapResponseToDomaineMainAPI(model: result)
     }
     
-    private func mapRsponseToDomaineMainAPI(model: APIEntity) -> MainAPI {
+    private func mapResponseToDomaineMainAPI(model: APIEntity) -> MainAPI {
         return .init(entity: model)
     }
     
     
-    func getEpisodesData() async -> [Episode] {
-            let episodes = await api.getEpisodeData()
+    func getEpisodesData(url: String) async -> [Episode] {
+        let episodes = await api.getEpisodeData(url: url)
         
         guard let episodes else { return [] }
         
-            return mapRsponseToDomaineEpisode(model: episodes)
+            return mapResponseToDomaineEpisode(model: episodes)
     }
     
-    private func mapRsponseToDomaineEpisode(model: EpisodeEntity) -> [Episode] {
+    private func mapResponseToDomaineEpisode(model: EpisodeEntity) -> [Episode] {
         var episodes: [Episode] = []
         
         guard let results = model.results else { return episodes }
@@ -42,5 +42,47 @@ struct Repository {
         }
         return episodes
     }
+    
+    func getLocationData(url: String) async -> [Location] {
+        let locations = await api.getLocationData(url: url)
+        
+        guard let locations else { return [] }
+        
+            return mapResponseToDomaineLocation(model: locations)
+    }
+    
+    private func mapResponseToDomaineLocation(model: LocationEntity) -> [Location] {
+        var locations: [Location] = []
+        
+        guard let results = model.results else { return locations }
+        
+        for location in results {
+            locations.append(.init(entity: location))
+        }
+        return locations
+    }
+    
+    func getCharactersData(url: String) async -> [Character] {
+        let characters = await api.getCharactersData(url: url)
+        
+        guard let characters else { return [] }
+        
+            return mapResponseToDomaineCharacters(model: characters)
+    }
+    
+    private func mapResponseToDomaineCharacters(model: CharactersEntity) -> [Character] {
+        var characters: [Character] = []
+        
+        guard let results = model.results else { return characters }
+        
+        for character in results {
+            characters.append(.init(entity: character))
+        }
+        return characters
+    }
+
+    
+    
+    
     
 }

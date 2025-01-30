@@ -32,6 +32,6 @@ struct AnimatedRotationImageView: View {
     }
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}

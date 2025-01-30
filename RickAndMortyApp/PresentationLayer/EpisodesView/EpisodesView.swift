@@ -9,13 +9,20 @@ import SwiftUI
 
 struct EpisodesView: View {
     
-    var url: String
+    @StateObject var viewModel = EpisodesViewModel()
+    
+    @State var episodes: [Episode]
     
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            ForEach(episodes, id: \.id) { episode in
+                Text(episode.name)
+            }
+            
+        }
     }
 }
 
 #Preview {
-    ContentView()
+    SplashScreenView()
 }

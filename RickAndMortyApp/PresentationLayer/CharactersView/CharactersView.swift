@@ -9,13 +9,18 @@ import SwiftUI
 
 struct CharactersView: View {
     
+    @StateObject var viewModel = CharactersViewModel()
+    
     var url: String
     
     var body: some View {
-        Text("123")
+        VStack {
+            ForEach(viewModel.characters, id: \.id) { character in
+                Text(character.name)
+            }
+        }
+        .onAppear {
+            Task { await viewModel.setup(url: url)}
+        }
     }
-}
-
-#Preview {
-    CharactersView()
 }

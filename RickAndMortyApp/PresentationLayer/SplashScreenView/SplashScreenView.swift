@@ -13,10 +13,12 @@ struct SplashScreenView: View {
     @State private var size = 0.6
     @State private var opacity = 0.5
     
+    @StateObject var appViewModel = AppViewModel()
+    
     var body: some View {
         
         if isActive {
-            ContentView()
+            ContentView(appViewModel: appViewModel)
         } else {
             VStack {
                 VStack(spacing: 0) {
@@ -41,6 +43,7 @@ struct SplashScreenView: View {
                 }
             }
             .onAppear {
+                Task { await appViewModel.setup() }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     self.isActive = true
                 }

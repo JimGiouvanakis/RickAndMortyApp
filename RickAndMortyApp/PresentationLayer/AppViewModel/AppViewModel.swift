@@ -13,20 +13,22 @@ class AppViewModel: ObservableObject {
     let useCase = UseCase()
     
     @Published var urls: MainAPI = MainAPI(characters: "", locations: "", episodes: "")
+    @Published var episodes: [Episode] = []
     
+    func setup() async {
+        await getData()
+    }
     
-    func getUrls() async {
+    func getData() async {
         let urls = await useCase.execute()
-//        self.urls  = await useCase.execute()
                 
         self.urls = urls
-//        
-//        
-//        if urls == nil {
-//            print("No data")
-//        } else {
-//            print(urls)
-//        }
+        
+        guard urls.episodes != "" else { return }
+        
+        let episodes = await useCase.executeEpisodeData(url: urls.episodes)
+        
+        self.episodes = episodes
     }
     
 }

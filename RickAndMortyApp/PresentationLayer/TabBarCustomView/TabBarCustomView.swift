@@ -22,14 +22,14 @@ struct TabBarCustomView: View {
                     }
                     
                     VStack {
-                        Image(systemName: "house")
+                        Image(systemName: "tv")
                             .resizable()
                             .frame(width: 30, height: 30)
                             .foregroundStyle((selectedTab == .episodes) ? Color.App.tabBarSelectionGreen : Color.gray)
                             .bold()
                         
                         Text("Episodes")
-                            .font(. system(size: 20))
+                            .font(.system(size: 20))
                             .foregroundStyle((selectedTab == .episodes) ? Color.App.tabBarSelectionGreen : Color.gray)
                             .bold()
                     }
@@ -54,7 +54,7 @@ struct TabBarCustomView: View {
                             .bold()
                         
                         Text("Locations")
-                            .font(. system(size: 20))
+                            .font(.system(size: 20))
                             .foregroundStyle((selectedTab == .locations) ? Color.App.tabBarSelectionGreen : Color.gray)
                             .bold()
                     }
@@ -91,6 +91,6 @@ struct TabBarCustomView: View {
     }    
 }
 
-#Preview {
-    ContentView()
-}
+//#Preview {
+//    ContentView()
+//}
