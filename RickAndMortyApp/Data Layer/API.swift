@@ -61,7 +61,16 @@ struct API {
         }
     }
     
-    
-    
-    
+//    func getEpisodeCharacterData(url: String) async -> CharactersResultsEntity? {
+//        
+//        do {
+//            guard url != "" else { return nil }
+//            let data = try await NetworkCall().fetchData(link: url)
+//            
+//            return try JSONDecoder().decode(CharactersResultsEntity.self, from: data)
+//        } catch {
+//            print(error)
+//            return nil
+//        }
+//    }
 }

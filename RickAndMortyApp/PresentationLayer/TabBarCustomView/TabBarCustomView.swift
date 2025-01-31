@@ -35,7 +35,7 @@ struct TabBarCustomView: View {
                     }
                 }
             }
-            .frame(width: 110, height: 60)
+            .frame(width: 110, height: 5)
             .padding(10)
             
             Button(action: {
@@ -60,7 +60,7 @@ struct TabBarCustomView: View {
                     }
                 }
             }
-            .frame(width: 100, height: 60)
+            .frame(width: 100, height: 5)
             
             Button(action: {
                 selectedTab = .characters
@@ -84,13 +84,14 @@ struct TabBarCustomView: View {
                     }
                 }
             }
-            .frame(width: 110, height: 60)
+            .frame(width: 110, height: 5)
             .padding(10)
         }
+        .ignoresSafeArea()
         .frame(width: 400)
     }    
 }
 
-//#Preview {
-//    ContentView()
-//}
+#Preview {
+    SplashScreenView()
+}

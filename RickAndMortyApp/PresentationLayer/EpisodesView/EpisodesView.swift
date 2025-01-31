@@ -9,17 +9,136 @@ import SwiftUI
 
 struct EpisodesView: View {
     
-    @StateObject var viewModel = EpisodesViewModel()
+    @StateObject var viewModel = AppViewModel()
     
-    @State var episodes: [Episode]
+    @State var episodes: [EpisodeItem]
+    
+    @State private var readMoreTapped: Bool = false
+    
+    @State var episodeInfo: Info
     
     var body: some View {
-        VStack {
-            ForEach(episodes, id: \.id) { episode in
-                Text(episode.name)
+       
+            ScrollView {
+                
+                VStack(alignment: .leading,spacing: 20) {
+                    HStack {
+                        Text("Episodes")
+                            .font(.system(size: 40))
+                            .bold()
+                            .foregroundStyle(Color.App.episodeBackgroundGreen)
+                        
+                        Spacer()
+                        
+                        Image("PicleRick")
+                            .resizable()
+                            .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
+                    }
+                    
+                    ForEach(episodes, id: \.id) { episode in
+                        VStack(alignment: .leading) {
+                            Text("Episode \(episode.episode)")
+                                .font(.system(size: 20))
+                                .bold()
+                            
+                            Text(episode.name)
+                                .font(.system(size: 20))
+                                .bold()
+                            
+                            Text("Aired on \(episode.air_date)")
+                                .font(.system(size: 20))
+                                .bold()
+                            
+                            
+                            
+                            characterImage(characters: episode.characters)
+                                .padding(.horizontal)
+                        }
+                        .foregroundColor(Color.App.episodeBackgroundGreen)
+                        .padding(.leading,10)
+                        .frame(width: UIScreen.main.bounds.width * 0.9 ,height: UIScreen.main.bounds.height * 0.2,alignment: .leading)
+                        .background (
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(Color.App.episodeTextWhite)
+                                .cornerRadius(10)
+                        )
+                        
+                    }
+                }
+                makePreviousNextButton()
+        }
+        
+    }
+    
+    
+    @ViewBuilder
+    func characterImage(characters: [String]) -> some View {
+        let columns = [
+            GridItem(.adaptive(minimum: 15))
+        ]
+        let numberOfCharacters = viewModel.getEpisodeCharacters(characters: characters)
+        
+        HStack() {
+            LazyVGrid(columns: columns) {
+                ForEach(numberOfCharacters.prefix(6), id: \.self) { url in
+                    AsyncImage(url: URL(string: url)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: 40, height: 40)
+                    .clipShape(.rect(cornerRadius: 25))
+                }
             }
             
+            Text("and \(numberOfCharacters.count - 6) more")
+                .font(.system(size: 15))
+                .bold()
         }
+    }
+    
+    @ViewBuilder
+    func makePreviousNextButton() -> some View {
+        HStack(spacing: 30) {
+            if episodeInfo.prev != "" {
+                Button {
+                    
+                } label: {
+                    Text("Previous")
+                        .padding()
+                        .font(.system(size: 30))
+                        .bold()
+                        .foregroundStyle(Color.App.episodeBackgroundGreen)
+                        .overlay (
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.App.episodeBackgroundGreen, lineWidth: 3)
+                        )
+                        .padding(.trailing)
+                        .padding(.bottom, 50)
+                }
+            }
+            
+            if episodeInfo.next != "" {
+                Button {
+                    if let nextPage = episodeInfo.next  {
+                        Task { await viewModel.getEpisodeData(url: nextPage) }
+                    }
+                } label: {
+                    Text("Next")
+                        .padding()
+                        .font(.system(size: 30))
+                        .bold()
+                        .foregroundStyle(Color.App.episodeBackgroundGreen)
+                        .overlay (
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.App.episodeBackgroundGreen, lineWidth: 3)
+                        )
+                    
+                        .padding(.bottom, 50)
+                }
+            }
+        }
+        .padding(.horizontal)
     }
 }
 

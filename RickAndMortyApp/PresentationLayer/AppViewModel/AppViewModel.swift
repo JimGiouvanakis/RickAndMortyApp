@@ -13,7 +13,11 @@ class AppViewModel: ObservableObject {
     let useCase = UseCase()
     
     @Published var urls: MainAPI = MainAPI(characters: "", locations: "", episodes: "")
-    @Published var episodes: [Episode] = []
+    @Published var episodes: [EpisodeItem] = []
+    @Published var episodeInfo: Info = Info(count: 0, pages: 0, next: "", prev: "")
+    
+   private var imageURL: String = "https://rickandmortyapi.com/api/character/avatar/"
+   private var imageURLEnding: String =  ".jpeg"
     
     func setup() async {
         await getData()
@@ -26,9 +30,35 @@ class AppViewModel: ObservableObject {
         
         guard urls.episodes != "" else { return }
         
+        await getEpisodeData(url: urls.episodes)
+        
+    }
+    
+    func getEpisodeData(url: String) async {
+        
         let episodes = await useCase.executeEpisodeData(url: urls.episodes)
         
-        self.episodes = episodes
+        guard let results = episodes.results else { return }
+        
+        self.episodes = results
+        
+        guard let info = episodes.info else { return }
+        
+        self.episodeInfo = info
     }
+    
+
+   
+   func getEpisodeCharacters(characters: [String]) -> [String] {
+       var episodeCharacters: [String] = []
+       
+       for character in characters {
+       let characterSplitURL = character.components(separatedBy: "/")
+       let newString = characterSplitURL[5]
+       let episodeCharacter = imageURL + newString + imageURLEnding
+           episodeCharacters.append(episodeCharacter)
+       }
+       return episodeCharacters
+   }
     
 }

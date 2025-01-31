@@ -7,44 +7,25 @@
 
 import Foundation
 
-struct Episode: Identifiable, Equatable  {
-    static func == (lhs: Episode, rhs: Episode) -> Bool {
+struct EpisodeDomainModel: Identifiable, Equatable  {
+    static func == (lhs: EpisodeDomainModel, rhs: EpisodeDomainModel) -> Bool {
         return lhs.id == rhs.id
     }
     
-    var id: Int
-    var name: String
-    var air_date: String
-    var episode: String
-    var characters: [String]
-    var url: String
-    var created: String
+    var id = UUID()
+    var info: Info?
+    var results: [EpisodeItem]?
     
     init(
-        id: Int,
-        name: String,
-        air_date: String,
-        episode: String,
-        characters: [String],
-        url: String,
-        created: String
+        info: Info,
+        results: [EpisodeItem]
     ) {
-        self.id = id
-        self.name = name
-        self.air_date = air_date
-        self.episode = episode
-        self.characters = characters
-        self.url = url
-        self.created = created
+        self.info = info
+        self.results = results
     }
     
-    init(entity: EpisodeResultsEntity) {
-        self.id = entity.id ?? 0
-        self.name = entity.name ?? ""
-        self.air_date = entity.air_date ?? ""
-        self.episode = entity.episode ?? ""
-        self.characters = entity.characters ?? []
-        self.url = entity.url ?? ""
-        self.created = entity.created ?? ""
+    init(entity: EpisodeEntity?) {
+        self.info = .init(entity: entity?.info)
+        self.results = entity?.results?.map { EpisodeItem(entity: $0) }
     }
 }

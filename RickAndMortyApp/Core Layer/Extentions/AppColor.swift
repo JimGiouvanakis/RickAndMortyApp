@@ -46,8 +46,30 @@ extension Color {
         
         
         // MARK: - TabBarCustomView Colors
+        
         static var tabBarSelectionGreen: Color {
             Color(hex: "#1d3d10")
+        }
+        
+        
+        // MARK: - EpisodeView Colors
+        
+        static var episodeTextBlue: Color {
+            Color(hex: "#14aecd")
+        }
+        
+        static var episodeTextGray: Color {
+            Color(hex: "#a2a6b2")
+        }
+        
+        static var episodeTextWhite: Color {
+            Color(hex: "#d1e1c0")
+        }
+        
+        
+        
+        static var episodeBackgroundGreen: Color {
+            Color(hex: "#4e8125")
         }
        
     }

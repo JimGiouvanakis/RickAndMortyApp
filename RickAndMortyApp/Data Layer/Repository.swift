@@ -24,23 +24,19 @@ struct Repository {
     }
     
     
-    func getEpisodesData(url: String) async -> [Episode] {
+    func getEpisodesData(url: String) async -> EpisodeDomainModel {
         let episodes = await api.getEpisodeData(url: url)
         
-        guard let episodes else { return [] }
+        guard let episodes else { return EpisodeDomainModel(info: Info(count: 0, pages: 0, next: "", prev: ""), results: []) }
         
             return mapResponseToDomaineEpisode(model: episodes)
     }
     
-    private func mapResponseToDomaineEpisode(model: EpisodeEntity) -> [Episode] {
-        var episodes: [Episode] = []
+    private func mapResponseToDomaineEpisode(model: EpisodeEntity) -> EpisodeDomainModel {
+//        var episodes: [EpisodeDomainModel] = []
         
-        guard let results = model.results else { return episodes }
-        
-        for episode in results {
-            episodes.append(.init(entity: episode))
-        }
-        return episodes
+        return .init(entity: model)
+
     }
     
     func getLocationData(url: String) async -> [Location] {
@@ -80,9 +76,19 @@ struct Repository {
         }
         return characters
     }
-
     
     
-    
-    
+//    func getEpisodeCharacterData(url: String) async -> Character {
+//        let character = await api.getEpisodeCharacterData(url: url)
+//        
+//        guard let character else
+//        { return Character(id: 0, name: "", status: "", species: "", type: "", gender: "", origin: OriginAndLocation(name: "", url: ""), location: OriginAndLocation(name: "", url: ""), image: "", episode: [], url: "", created: "") }
+//        
+//            return mapResponseToDomaineEpisodeCharacter(model: character)
+//    }
+//    
+//    private func mapResponseToDomaineEpisodeCharacter(model: CharactersResultsEntity) -> Character {
+//        
+//        return Character(entity: model)
+//    }
 }

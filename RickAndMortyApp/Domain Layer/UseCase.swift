@@ -15,7 +15,7 @@ struct UseCase {
         return urls
     }
     
-    func executeEpisodeData(url: String) async  -> [Episode] {
+    func executeEpisodeData(url: String) async  -> EpisodeDomainModel {
         let episodes = await repository.getEpisodesData(url: url)
         return episodes
     }
@@ -29,5 +29,11 @@ struct UseCase {
         let characters = await repository.getCharactersData(url: url)
         return characters
     }
+    
+    
+//    func executeEpisodeCharacterData(url: String) async  -> Character {
+//        let character = await repository.getEpisodeCharacterData(url: url)
+//        return character
+//    }
     
 }
