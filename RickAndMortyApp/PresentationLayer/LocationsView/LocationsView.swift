@@ -13,14 +13,132 @@ struct LocationsView: View {
     
     var body: some View {
         VStack {
-            ForEach(viewModel.locations, id: \.id) { location in
-                Text(location.name)
+            ScrollView {
+                VStack(alignment: .leading,spacing: 20) {
+                    HStack {
+                        Text("Locations")
+                            .font(.system(size: 40))
+                            .bold()
+                            .foregroundStyle(Color.App.episodeBackgroundGreen)
+                        
+                        Spacer()
+                        
+                        Image("PicleRick")
+                            .resizable()
+                            .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
+                    }
+                    
+                    ForEach(viewModel.locations, id: \.id) { location in
+                        VStack(alignment: .leading) {
+                            Text("Name: \(location.name)")
+                                .font(.system(size: 20))
+                                .bold()
+                            
+                            Text("Type: \(location.type)")
+                                .font(.system(size: 20))
+                                .bold()
+                            
+                            Text(location.dimension)
+                                .font(.system(size: 20))
+                                .bold()
+                            
+                            
+                            characterImage(residents: location.residents)
+                                .padding(.horizontal)
+                        }
+                        .foregroundColor(Color.App.episodeBackgroundGreen)
+                        .padding(.leading,10)
+                        .frame(width: UIScreen.main.bounds.width * 0.9 ,height: UIScreen.main.bounds.height * 0.2,alignment: .leading)
+                        .background (
+                            RoundedRectangle(cornerRadius: 10)
+                                .foregroundColor(Color.App.episodeTextWhite)
+                                .cornerRadius(10)
+                        )
+                        
+                    }
+                }
+                makePreviousNextButton()
             }
         }
         .onAppear {
             Task { await viewModel.setup()}
         }
     }
+    
+    @ViewBuilder
+    func characterImage(residents: [String]) -> some View {
+        let columns = [
+            GridItem(.adaptive(minimum: 15))
+        ]
+        let numberOfResidents = viewModel.getLocationResidents(residents: residents)
+        
+        HStack() {
+            LazyVGrid(columns: columns) {
+                ForEach(numberOfResidents.prefix(6), id: \.self) { url in
+                    AsyncImage(url: URL(string: url)) { image in
+                        image.resizable()
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    .frame(width: 40, height: 40)
+                    .clipShape(.rect(cornerRadius: 25))
+                }
+            }
+            
+            if numberOfResidents.count > 7 {
+                Text("and \(numberOfResidents.count - 6) more")
+                    .font(.system(size: 15))
+                    .bold()
+            }
+        }
+    }
+    
+    @ViewBuilder
+    func makePreviousNextButton() -> some View {
+        HStack(spacing: 30) {
+            if viewModel.locationInfo.prev != "" {
+                Button {
+                    if let prevPage = viewModel.locationInfo.prev  {
+                        viewModel.getNewData(url: prevPage)
+                    }
+                } label: {
+                    Text("Previous")
+                        .padding()
+                        .font(.system(size: 30))
+                        .bold()
+                        .foregroundStyle(Color.App.episodeBackgroundGreen)
+                        .overlay (
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.App.episodeBackgroundGreen, lineWidth: 3)
+                        )
+                        .padding(.trailing)
+                        .padding(.bottom, 50)
+                }
+            }
+            
+            if viewModel.locationInfo.next != "" {
+                Button {
+                    if let nextPage = viewModel.locationInfo.next  {
+                        viewModel.getNewData(url: nextPage)
+                    }
+                } label: {
+                    Text("Next")
+                        .padding()
+                        .font(.system(size: 30))
+                        .bold()
+                        .foregroundStyle(Color.App.episodeBackgroundGreen)
+                        .overlay (
+                            RoundedRectangle(cornerRadius: 6)
+                                .stroke(Color.App.episodeBackgroundGreen, lineWidth: 3)
+                        )
+                    
+                        .padding(.bottom, 50)
+                }
+            }
+        }
+        .padding(.horizontal)
+    }
+    
 }
 
 //#Preview {

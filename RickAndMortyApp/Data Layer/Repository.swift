@@ -39,23 +39,17 @@ struct Repository {
 
     }
     
-    func getLocationData(url: String) async -> [Location] {
+    func getLocationData(url: String) async -> LocationDomainModel {
         let locations = await api.getLocationData(url: url)
         
-        guard let locations else { return [] }
+        guard let locations else { return LocationDomainModel(info: Info(count: 0, pages: 0, next: "", prev: ""), results: []) }
         
             return mapResponseToDomaineLocation(model: locations)
     }
     
-    private func mapResponseToDomaineLocation(model: LocationEntity) -> [Location] {
-        var locations: [Location] = []
+    private func mapResponseToDomaineLocation(model: LocationEntity) -> LocationDomainModel {
         
-        guard let results = model.results else { return locations }
-        
-        for location in results {
-            locations.append(.init(entity: location))
-        }
-        return locations
+        return .init(entity: model)
     }
     
     func getCharactersData(url: String) async -> [Character] {

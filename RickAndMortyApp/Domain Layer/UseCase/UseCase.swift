@@ -20,7 +20,7 @@ struct UseCase {
         return episodes
     }
     
-    func executeLocationData(url: String) async  -> [Location] {
+    func executeLocationData(url: String) async  -> LocationDomainModel {
         let locations = await repository.getLocationData(url: url)
         return locations
     }

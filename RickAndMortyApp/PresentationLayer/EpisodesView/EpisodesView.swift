@@ -89,9 +89,11 @@ struct EpisodesView: View {
                 }
             }
             
-            Text("and \(numberOfCharacters.count - 6) more")
-                .font(.system(size: 15))
-                .bold()
+            if numberOfCharacters.count > 7 {
+                Text("and \(numberOfCharacters.count - 6) more")
+                    .font(.system(size: 15))
+                    .bold()
+            }
         }
     }
     

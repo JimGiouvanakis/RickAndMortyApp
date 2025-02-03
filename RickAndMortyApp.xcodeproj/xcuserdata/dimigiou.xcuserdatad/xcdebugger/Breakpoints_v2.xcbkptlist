@@ -30,8 +30,8 @@
             filePath = "RickAndMortyApp/PresentationLayer/EpisodesView/EpisodesView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "124"
-            endingLineNumber = "124"
+            startingLineNumber = "126"
+            endingLineNumber = "126"
             landmarkName = "makePreviousNextButton()"
             landmarkType = "7">
          </BreakpointContent>
@@ -48,24 +48,24 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "26"
             endingLineNumber = "26"
-            landmarkName = "setup()"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "B2895254-8DAF-4766-90E2-719D977FF102"
+            uuid = "0AAA3A1A-80CB-4815-BEB3-9B17DD3FFAD7"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "RickAndMortyApp/PresentationLayer/EpisodesView/EpisodesView.swift"
+            filePath = "RickAndMortyApp/PresentationLayer/LocationsView/LocationViewModel/LocationViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "33"
-            endingLineNumber = "33"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "42"
+            endingLineNumber = "42"
+            landmarkName = "getLocationData(url:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

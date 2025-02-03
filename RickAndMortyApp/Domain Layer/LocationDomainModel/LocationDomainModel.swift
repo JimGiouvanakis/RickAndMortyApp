@@ -7,44 +7,25 @@
 
 import Foundation
 
-struct Location: Identifiable, Equatable  {
-    static func == (lhs: Location, rhs: Location) -> Bool {
+struct LocationDomainModel: Identifiable, Equatable  {
+    static func == (lhs: LocationDomainModel, rhs: LocationDomainModel) -> Bool {
         return lhs.id == rhs.id
     }
     
-    var id: Int
-    var name: String
-    var type: String
-    var dimension: String
-    var residents: [String]
-    var url: String
-    var created: String
+    var id = UUID()
+    var info: Info?
+    var results: [LocationItem]?
     
     init(
-        id: Int,
-        name: String,
-        type: String,
-        dimension: String,
-        residents: [String],
-        url: String,
-        created: String
+        info: Info,
+        results: [LocationItem]
     ) {
-        self.id = id
-        self.name = name
-        self.type = type
-        self.dimension = dimension
-        self.residents = residents
-        self.url = url
-        self.created = created
+        self.info = info
+        self.results = results
     }
     
-    init(entity: LocationResultEntity) {
-        self.id = entity.id ?? 0
-        self.name = entity.name ?? ""
-        self.type = entity.type ?? ""
-        self.dimension = entity.dimension ?? ""
-        self.residents = entity.residents ?? []
-        self.url = entity.url ?? ""
-        self.created = entity.created ?? ""
+    init(entity: LocationEntity?) {
+        self.info = .init(entity: entity?.info)
+        self.results = entity?.results?.map { LocationItem(entity: $0) }
     }
 }

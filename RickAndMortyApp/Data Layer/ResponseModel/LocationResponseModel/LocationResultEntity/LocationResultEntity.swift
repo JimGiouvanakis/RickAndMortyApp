@@ -20,9 +20,9 @@ struct LocationResultEntity: Codable {
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case name = "name"
-        case type = "air_date"
-        case dimension = "episode"
-        case residents = "characters"
+        case type = "type"
+        case dimension = "dimension"
+        case residents = "residents"
         case url = "url"
         case created = "created"
     }
