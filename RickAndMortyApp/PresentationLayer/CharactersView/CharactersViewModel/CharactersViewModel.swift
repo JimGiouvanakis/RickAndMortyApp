@@ -13,8 +13,8 @@ class CharactersViewModel: ObservableObject {
 
     @Published var characters: [Character] = []
 
-    func setup(url: String) async {
-        await getData(url: url)
+    func setup() async {
+        await getData(url: Constants.mainAPILink)
     }
 
     private func getData(url: String) async {

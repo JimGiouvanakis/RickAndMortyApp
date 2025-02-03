@@ -7,12 +7,17 @@
 
 import Foundation
 
+@MainActor
 class EpisodesViewModel: ObservableObject {
     
-//        let useCase = UseCase()
+        let useCase = UseCase()
     
     private var imageURL: String = "https://rickandmortyapi.com/api/character/avatar/"
     private var imageURLEnding: String =  ".jpeg"
+    
+    @Published var episodes: [EpisodeItem] = []
+    @Published var episodeInfo: Info = Info(count: 0, pages: 0, next: "", prev: "")
+    
     
     func getEpisodeCharacters(characters: [String]) -> [String] {
         var episodeCharacters: [String] = []
@@ -24,6 +29,36 @@ class EpisodesViewModel: ObservableObject {
             episodeCharacters.append(episodeCharacter)
         }
         return episodeCharacters
+    }
+    
+    func setup() async {
+        await getData()
+    }
+    
+    func getData() async {
+        let urls = await useCase.execute()
+        
+        guard urls.episodes != "" else { return }
+        
+        await getEpisodeData(url: urls.episodes)
+        
+    }
+    
+    func getNewData(url: String) {
+        Task { await self.getEpisodeData(url: url) }
+    }
+    
+    func getEpisodeData(url: String) async {
+        
+        let episodes = await useCase.executeEpisodeData(url: url)
+        
+        guard let results = episodes.results else { return }
+        
+        self.episodes = results
+        
+        guard let info = episodes.info else { return }
+        
+        self.episodeInfo = info
     }
     
     
@@ -49,4 +84,11 @@ class EpisodesViewModel: ObservableObject {
     //        }
     //    }
     
+}
+
+extension EpisodesViewModel {
+    
+    static var placeholderEpisodeItem: [EpisodeItem] {
+        (0..<5).map { _ in EpisodeItem (id: 0, name: "", air_date: "", episode: "", characters: [], url: "", created: "")} /// use this to secure that we generating unique IDs
+    }
 }

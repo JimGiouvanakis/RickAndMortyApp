@@ -9,18 +9,13 @@ import SwiftUI
 
 struct EpisodesView: View {
     
-    @StateObject var viewModel = AppViewModel()
-    
-    @State var episodes: [EpisodeItem]
+    @StateObject var viewModel = EpisodesViewModel()
     
     @State private var readMoreTapped: Bool = false
     
-    @State var episodeInfo: Info
-    
     var body: some View {
-       
+        VStack {
             ScrollView {
-                
                 VStack(alignment: .leading,spacing: 20) {
                     HStack {
                         Text("Episodes")
@@ -35,7 +30,7 @@ struct EpisodesView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
                     }
                     
-                    ForEach(episodes, id: \.id) { episode in
+                    ForEach(viewModel.episodes, id: \.id) { episode in
                         VStack(alignment: .leading) {
                             Text("Episode \(episode.episode)")
                                 .font(.system(size: 20))
@@ -48,7 +43,6 @@ struct EpisodesView: View {
                             Text("Aired on \(episode.air_date)")
                                 .font(.system(size: 20))
                                 .bold()
-                            
                             
                             
                             characterImage(characters: episode.characters)
@@ -66,7 +60,11 @@ struct EpisodesView: View {
                     }
                 }
                 makePreviousNextButton()
+            }
         }
+            .onAppear {
+                Task { await viewModel.setup() }
+            }
         
     }
     
@@ -100,9 +98,11 @@ struct EpisodesView: View {
     @ViewBuilder
     func makePreviousNextButton() -> some View {
         HStack(spacing: 30) {
-            if episodeInfo.prev != "" {
+            if viewModel.episodeInfo.prev != "" {
                 Button {
-                    
+                    if let prevPage = viewModel.episodeInfo.prev  {
+                        viewModel.getNewData(url: prevPage)
+                    }
                 } label: {
                     Text("Previous")
                         .padding()
@@ -118,10 +118,10 @@ struct EpisodesView: View {
                 }
             }
             
-            if episodeInfo.next != "" {
+            if viewModel.episodeInfo.next != "" {
                 Button {
-                    if let nextPage = episodeInfo.next  {
-                        Task { await viewModel.getEpisodeData(url: nextPage) }
+                    if let nextPage = viewModel.episodeInfo.next  {
+                        viewModel.getNewData(url: nextPage)
                     }
                 } label: {
                     Text("Next")

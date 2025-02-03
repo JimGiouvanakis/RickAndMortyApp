@@ -13,8 +13,8 @@ class LocationViewModel: ObservableObject {
 
         @Published var locations: [Location] = []
     
-        func setup(url: String) async {
-            await getData(url: url)
+        func setup() async {
+            await getData(url: Constants.mainAPILink)
         }
 
         private func getData(url: String) async {

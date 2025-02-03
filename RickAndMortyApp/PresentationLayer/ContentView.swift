@@ -10,7 +10,6 @@ import SwiftUI
 struct ContentView: View {
     
 //    @StateObject var appViewModel = AppViewModel()
-    @StateObject var appViewModel: AppViewModel
     @State var tabSelection: TabBarSelections = .episodes
     
     
@@ -19,11 +18,11 @@ struct ContentView: View {
         VStack {
                 
             if tabSelection == .episodes {
-                EpisodesView(episodes: appViewModel.episodes,episodeInfo: appViewModel.episodeInfo)
+                EpisodesView()
             } else if tabSelection == .locations {
-                LocationsView(url: appViewModel.urls.characters)
+                LocationsView()
             } else if tabSelection == .characters {
-                CharactersView(url: appViewModel.urls.locations)
+                CharactersView()
             }
             
             TabBarCustomView(selectedTab: $tabSelection)

@@ -9,8 +9,6 @@ import SwiftUI
 
 struct LocationsView: View {
     
-    var url: String
-    
     @StateObject var viewModel = LocationViewModel()
     
     var body: some View {
@@ -20,7 +18,7 @@ struct LocationsView: View {
             }
         }
         .onAppear {
-            Task { await viewModel.setup(url: url)}
+            Task { await viewModel.setup()}
         }
     }
 }

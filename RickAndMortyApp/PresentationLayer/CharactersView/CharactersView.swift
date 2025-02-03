@@ -11,8 +11,6 @@ struct CharactersView: View {
     
     @StateObject var viewModel = CharactersViewModel()
     
-    var url: String
-    
     var body: some View {
         VStack {
             ForEach(viewModel.characters, id: \.id) { character in
@@ -20,7 +18,7 @@ struct CharactersView: View {
             }
         }
         .onAppear {
-            Task { await viewModel.setup(url: url)}
+            Task { await viewModel.setup()}
         }
     }
 }
