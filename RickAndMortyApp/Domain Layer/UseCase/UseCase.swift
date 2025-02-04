@@ -25,7 +25,7 @@ struct UseCase {
         return locations
     }
     
-    func executeCharacterData(url: String) async  -> [Character] {
+    func executeCharacterData(url: String) async  -> CharacterDomainModel {
         let characters = await repository.getCharactersData(url: url)
         return characters
     }

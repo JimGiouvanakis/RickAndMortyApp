@@ -7,65 +7,26 @@
 
 import Foundation
 
-struct Character:Identifiable, Equatable  {
-    static func == (lhs: Character, rhs: Character) -> Bool {
+struct CharacterDomainModel:Identifiable, Equatable  {
+    static func == (lhs: CharacterDomainModel, rhs: CharacterDomainModel) -> Bool {
         return lhs.id == rhs.id
     }
     
-    var id: Int
-    var name: String
-    var status: String
-    var species: String
-    var type: String
-    var gender: String
-    var origin: OriginAndLocation
-    var location: OriginAndLocation
-    var image: String
-    var episode: [String]
-    var url: String
-    var created: String
+    var id = UUID()
+    var info: Info?
+    var results: [CharacterItem]?
     
     init (
-    id: Int,
-    name: String,
-    status: String,
-    species: String,
-    type: String,
-    gender: String,
-    origin: OriginAndLocation,
-    location: OriginAndLocation,
-    image: String,
-    episode: [String],
-    url: String,
-    created: String
+        info: Info,
+        results: [CharacterItem]
     ) {
-        self.id = id
-        self.name = name
-        self.status = status
-        self.species = species
-        self.type = type
-        self.gender = gender
-        self.origin = origin
-        self.location = location
-        self.image = image
-        self.episode = episode
-        self.url = url
-        self.created = created
+        self.info = info
+        self.results = results
     }
     
-    init(entity: CharactersResultsEntity) {
-        self.id = entity.id ?? 0
-        self.name = entity.name ?? ""
-        self.status = entity.status ?? ""
-        self.species = entity.species ?? ""
-        self.type = entity.type ?? ""
-        self.gender = entity.gender ?? ""
-        self.origin = .init(entity: entity.origin)
-        self.location = .init(entity: entity.location)
-        self.image = entity.image ?? ""
-        self.episode = entity.episode ?? []
-        self.url = entity.url ?? ""
-        self.created = entity.created ?? ""
+    init(entity: CharactersEntity?) {
+        self.info = .init(entity: entity?.info)
+        self.results = entity?.results?.map { CharacterItem(entity: $0) }
     }
 }
 

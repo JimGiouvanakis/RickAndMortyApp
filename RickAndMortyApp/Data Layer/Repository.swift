@@ -52,23 +52,16 @@ struct Repository {
         return .init(entity: model)
     }
     
-    func getCharactersData(url: String) async -> [Character] {
+    func getCharactersData(url: String) async -> CharacterDomainModel {
         let characters = await api.getCharactersData(url: url)
         
-        guard let characters else { return [] }
+        guard let characters else { return CharacterDomainModel(info: Info(count: 0, pages: 0, next: "", prev: ""), results: []) }
         
             return mapResponseToDomaineCharacters(model: characters)
     }
     
-    private func mapResponseToDomaineCharacters(model: CharactersEntity) -> [Character] {
-        var characters: [Character] = []
-        
-        guard let results = model.results else { return characters }
-        
-        for character in results {
-            characters.append(.init(entity: character))
-        }
-        return characters
+    private func mapResponseToDomaineCharacters(model: CharactersEntity) -> CharacterDomainModel {
+        return .init(entity: model)
     }
     
     
