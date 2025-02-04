@@ -44,6 +44,10 @@ extension Color {
         
         // MARK: - Main App Colors
         
+        static var white: Color {
+            Color(hex: "#FFFFFF")
+        }
+        
         
         // MARK: - TabBarCustomView Colors
         
@@ -71,6 +75,16 @@ extension Color {
         static var episodeBackgroundGreen: Color {
             Color(hex: "#4e8125")
         }
-       
+        
+        
+        static var cardDardGrayShadow: Color {
+            Color(hex: "#36454F")
+        }
+        
+        static var cardDardGrayStroke: Color {
+            Color(hex: "#B2BEB5")
+        }
+        
+        
     }
 }
