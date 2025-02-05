@@ -10,6 +10,7 @@ import SwiftUI
 struct EpisodesView: View {
     
     @StateObject var viewModel = EpisodesViewModel()
+    @StateObject var appViewModel = AppViewModel()
     
     @State private var readMoreTapped: Bool = false
     
@@ -79,11 +80,7 @@ struct EpisodesView: View {
         HStack() {
             LazyVGrid(columns: columns) {
                 ForEach(numberOfCharacters.prefix(6), id: \.self) { url in
-                    AsyncImage(url: URL(string: url)) { image in
-                        image.resizable()
-                    } placeholder: {
-                        ProgressView()
-                    }
+                    RemoteImageView(url: appViewModel.getImageURL(url: url))
                     .frame(width: 40, height: 40)
                     .clipShape(.rect(cornerRadius: 25))
                 }

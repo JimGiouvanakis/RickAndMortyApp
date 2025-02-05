@@ -7,9 +7,14 @@
 
 import Foundation
 
-//@MainActor
-//class AppViewModel: ObservableObject {
-//    
+@MainActor
+class AppViewModel: ObservableObject {
+    
+    func getImageURL(url: String) -> URL? {
+        return URL(string: url)
+    }
+    
+//
 //    let useCase = UseCase()
 //    //
 //    //    //    @Injected(\.getEpisodeUseCase) private var getEpisodeUseCase: getEpisodeUseCaseProtocol
@@ -64,4 +69,4 @@ import Foundation
 //        return episodeCharacters
 //    }
 //    
-//}
+}

@@ -10,6 +10,7 @@ import SwiftUI
 struct LocationsView: View {
     
     @StateObject var viewModel = LocationViewModel()
+    @StateObject var appViewModel = AppViewModel()
     
     var body: some View {
         VStack {
@@ -75,11 +76,7 @@ struct LocationsView: View {
         HStack() {
             LazyVGrid(columns: columns) {
                 ForEach(numberOfResidents.prefix(6), id: \.self) { url in
-                    AsyncImage(url: URL(string: url)) { image in
-                        image.resizable()
-                    } placeholder: {
-                        ProgressView()
-                    }
+                    RemoteImageView(url: appViewModel.getImageURL(url: url))
                     .frame(width: 40, height: 40)
                     .clipShape(.rect(cornerRadius: 25))
                 }
