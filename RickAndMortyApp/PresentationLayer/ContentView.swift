@@ -12,24 +12,34 @@ struct ContentView: View {
 //    @StateObject var appViewModel = AppViewModel()
     @State var tabSelection: TabBarSelections = .episodes
     
+    @State var selectedCharacter: CharacterItem?
+    @State var showMoreInfo: Bool = false
+    
     
     var body: some View {
-        
-        VStack {
+        NavigationView {
+            VStack {
                 
-            if tabSelection == .episodes {
-                EpisodesView()
-            } else if tabSelection == .locations {
-                LocationsView()
-            } else if tabSelection == .characters {
-                CharactersView()
+                if tabSelection == .episodes {
+                    EpisodesView()
+                } else if tabSelection == .locations {
+                    LocationsView()
+                } else if tabSelection == .characters {
+                    CharactersView(showMoreInfo: $showMoreInfo, selectedCharacter: $selectedCharacter)
+                }
+                
+                if let selectedCharacter {
+                    NavigationLink(destination: CharacterMoreInfoView(character: selectedCharacter), isActive: $showMoreInfo) {
+                        EmptyView()
+                    }
+                }
+                
+                TabBarCustomView(selectedTab: $tabSelection)
+                    .ignoresSafeArea()
             }
-            
-            TabBarCustomView(selectedTab: $tabSelection)
-                .ignoresSafeArea()
+            .ignoresSafeArea()
+            .padding()
         }
-        .ignoresSafeArea()
-        .padding()
     }
 }
 

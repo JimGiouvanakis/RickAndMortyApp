@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct CharacterItem:Identifiable, Equatable  {
+struct CharacterItem:Identifiable, Equatable , Hashable {
     static func == (lhs: CharacterItem, rhs: CharacterItem) -> Bool {
         return lhs.id == rhs.id
     }

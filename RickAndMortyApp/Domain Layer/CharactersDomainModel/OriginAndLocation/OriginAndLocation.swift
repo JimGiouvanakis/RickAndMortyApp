@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct OriginAndLocation {
+struct OriginAndLocation: Hashable {
     
     let name: String
     let url: String

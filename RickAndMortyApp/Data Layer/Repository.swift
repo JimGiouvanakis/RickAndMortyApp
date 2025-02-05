@@ -63,6 +63,38 @@ struct Repository {
     private func mapResponseToDomaineCharacters(model: CharactersEntity) -> CharacterDomainModel {
         return .init(entity: model)
     }
+
+    func getCharacterEpisodesData(url: [String]) async -> [EpisodeItem] {
+        var array : [EpisodeItem] = []
+        
+        for characterEpisodeURL in url {
+            let characterEpisode = await api.getCharacterEpisodesData(url: characterEpisodeURL)
+            
+            if let characterEpisode {
+                let episodeItem = mapResponseToDomaineCharacterEpisode(model: characterEpisode)
+                
+                array.append(episodeItem)
+            }
+        }
+        return array
+    }
+    
+    private func mapResponseToDomaineCharacterEpisode(model: EpisodeResultsEntity) -> EpisodeItem {
+        return .init(entity: model)
+    }
+    
+    func getCharacterLocationData(url: String) async -> LocationItem {
+            let characterLocation = await api.getCharacterLocationData(url: url)
+        
+        guard let characterLocation else { return LocationItem(id: 0, name: "", type: "", dimension: "", residents: [], url: "", created: "") }
+            
+                return mapResponseToDomaineCharacterEpisode(model: characterLocation)
+    }
+    
+    private func mapResponseToDomaineCharacterEpisode(model: LocationResultEntity) -> LocationItem {
+        return .init(entity: model)
+    }
+    
     
     
 //    func getEpisodeCharacterData(url: String) async -> Character {

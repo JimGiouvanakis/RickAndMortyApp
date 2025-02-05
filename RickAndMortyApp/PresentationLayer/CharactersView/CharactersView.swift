@@ -11,9 +11,10 @@ import SwiftUI
 struct CharactersView: View {
     
     @StateObject var viewModel = CharactersViewModel()
-    @State var showMoreInfo: Bool = false
-    @State var selectedCharacter: CharacterItem?
+    @Binding var showMoreInfo: Bool
+    @Binding var selectedCharacter: CharacterItem?
     
+    @Environment(\.appCoordinator) var appCoordinator: AppCoordinator
     
     let columns = [
         GridItem(.flexible(), spacing: 20),
@@ -21,39 +22,38 @@ struct CharactersView: View {
     ]
     
     var body: some View {
-        VStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    HStack {
-                        Text("Characters")
-                            .font(.system(size: 40))
-                            .bold()
-                            .foregroundStyle(Color.App.episodeBackgroundGreen)
+            VStack {
+                ScrollView {
+                    VStack(spacing: 20) {
+                        HStack {
+                            Text("Characters")
+                                .font(.system(size: 40))
+                                .bold()
+                                .foregroundStyle(Color.App.episodeBackgroundGreen)
+                            
+                            Spacer()
+                            
+                            Image("PicleRick")
+                                .resizable()
+                                .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
+                        }
                         
-                        Spacer()
-                        
-                        Image("PicleRick")
-                            .resizable()
-                            .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
-                    }
-                    
                         LazyVGrid(columns: columns) {
                             ForEach(viewModel.characters, id: \.id) { character in
                                 CharacterCardView(character: character)
                                     .onTapGesture {
-                                        showMoreInfo = true
-                                        selectedCharacter = character
+                                        appCoordinator.push(page: .character(character: character))
                                     }
                             }
                         }
-//                        .sheet(isPresented: $showMoreInfo) {
-//                            EmptyView()
-//                        }
-                    
-                    makePreviousNextButton()
+                        //                        .sheet(isPresented: $showMoreInfo) {
+                        //                            EmptyView()
+                        //                        }
+                        
+                        makePreviousNextButton()
+                    }
                 }
             }
-        }
         .onAppear {
             Task { await viewModel.setup()}
         }
@@ -103,6 +103,20 @@ struct CharactersView: View {
             }
         }
         .padding(.horizontal)
+    }
+    
+    @ViewBuilder
+    func makePopUp() -> some View {
+        VStack {
+            Text("123")
+                .frame(width: 100,height: 100)
+                .overlay (
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.App.cardDardGrayStroke, lineWidth: 4)
+                        .frame(width: 170, height: 200)
+                        .shadow(color: Color.App.cardDardGrayShadow, radius: 10, x: 5, y: 5)
+                )
+        }
     }
 }
 

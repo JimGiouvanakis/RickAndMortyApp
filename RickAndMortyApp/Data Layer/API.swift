@@ -61,6 +61,33 @@ struct API {
         }
     }
     
+    func getCharacterEpisodesData(url: String) async -> EpisodeResultsEntity? {
+            do {
+                guard url != "" else { return nil }
+                
+                let data = try await NetworkCall().fetchData(link: url)
+                
+                return try JSONDecoder().decode(EpisodeResultsEntity.self, from: data)
+            } catch {
+                print(error)
+                return nil
+            }
+    }
+    
+    
+    func getCharacterLocationData(url: String) async -> LocationResultEntity? {
+            do {
+                guard url != "" else { return nil }
+                
+                let data = try await NetworkCall().fetchData(link: url)
+                
+                return try JSONDecoder().decode(LocationResultEntity.self, from: data)
+            } catch {
+                print(error)
+                return nil
+            }
+    }
+    
 //    func getEpisodeCharacterData(url: String) async -> CharactersResultsEntity? {
 //        
 //        do {

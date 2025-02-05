@@ -20,3 +20,8 @@ enum TabBarSelections {
     case episodes
     case locations
 }
+
+enum CharacterLocationType {
+    case origin
+    case location
+}

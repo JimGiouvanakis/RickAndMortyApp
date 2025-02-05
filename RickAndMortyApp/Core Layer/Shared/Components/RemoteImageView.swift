@@ -19,6 +19,7 @@ struct RemoteImageView: View {
                 .placeholder {
                     ProgressView()
                 }
+                .fade(duration: 0.25)
 
         }
     }
