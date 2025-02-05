@@ -15,78 +15,114 @@ struct CharacterMoreInfoView: View {
     
     @StateObject var appViewModel = AppViewModel()
     
+    @Environment(\.appCoordinator) var appCoordinator: AppCoordinator
+    
+    let columns = [
+        GridItem(.adaptive(minimum: 70))
+    ]
+    
     var body: some View {
-        ScrollView {
-            VStack {
-                RemoteImageView(url: appViewModel.getImageURL(url: character.image))
-                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
-                    .clipShape(.rect(cornerRadius: 25))
-                    .background (
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.App.episodeTextBlue, lineWidth: 4)
-                            .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
-                            .shadow(color: Color.App.episodeTextBlue, radius: 10, x: 5, y: 5)
-                    )
-                HStack {
-                    Image(systemName: "person.crop.square")
+            ScrollView {
+                VStack(alignment: .leading) {
+                    RemoteImageView(url: appViewModel.getImageURL(url: character.image))
+                        .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
+                        .clipShape(.circle)
+                        .background (
+                            Circle()
+                                .stroke(Color.App.episodeTextBlue, lineWidth: 4)
+                                .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
+                                .shadow(color: Color.App.episodeTextBlue, radius: 10, x: 5, y: 5)
+                        )
+                        .padding(.leading,20)
                     
-                    Text(character.name)
-                    }
-                
-                HStack {
-                    Image(systemName: "dot.radiowaves.left.and.right")
-                   
-                    Text(character.gender)
-                }
-                
-                HStack {
-                    if character.status == "Alive" {
-                        Image(systemName: "person.crop.circle.fill.badge.xmark")
-                    } else if character.status == "Dead"{
-                        Image(systemName: "person.crop.circle.fill.badge.xmark")
-                    } else {
-                        Image(systemName: "person.crop.circle.badge.questionmark.fill")
+                    HStack {
+                        Text("Name:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
                         
+                        Text(character.name)
+                            .font(.system(size: 20))
                     }
-                   
-                    Text(character.status)
-                }
-                
-                HStack {
-                    if character.status == "Human" {
-                        Image(systemName: "person.fill")
-                    } else if character.status == "Alien"{
-                        Image(systemName: "antenna.radiowaves.left.and.right")
-                    } else {
-                        Image(systemName: "person.crop.circle.badge.questionmark.fill")
+                    
+                    HStack {
+                        Text("Gender:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
                         
+                        Text(character.gender)
+                            .font(.system(size: 20))
                     }
-                   
-                    Text(character.species)
-                }
-                
-                
-                
-                
-                Text(character.type)
-                
-                HStack {
-                    Text(character.origin.name)
                     
-                    Text(viewModel.characterOriginLocation.dimension)
-                }
-                
-                HStack {
-                    Text(character.location.name)
+                    HStack {
+                        Text("Status:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(character.status)
+                            .font(.system(size: 20))
+                    }
                     
-                    Text(viewModel.characterLocation.type)
+                    HStack {
+                        Text("Species:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(character.species)
+                            .font(.system(size: 20))
+                    }
+                    
+                    if character.type != "" {
+                        HStack {
+                            Text("Type:")
+                                .font(.system(size: 15))
+                                .opacity(0.5)
+                            
+                            Text(character.type)
+                                .font(.system(size: 20))
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Origin Planet:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(character.origin.name)
+                            .font(.system(size: 20))
+                    }
+                    
+                    HStack {
+                        Text("Last Location:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(character.location.name)
+                            .font(.system(size: 20))
+                    }
+                    
+//                    Button {
+//                        appCoordinator.pop()
+//                    } label: {
+//                        Text("Go back")
+//                    }
+//                    
+//                    Button {
+//                        appCoordinator.popToRoot()
+//                    } label: {
+//                        Text("Go home")
+//                    }
+                    
+                    Text("Present in episodes:")
+                        .font(.system(size: 15))
+                        .opacity(0.5)
+                    LazyVGrid(columns: columns) {
+                        ForEach(viewModel.characterEpisodes, id: \.id) { episode in
+                            Text(episode.episode)
+                        }
+                    }
                 }
-                
-                ForEach(viewModel.characterEpisodes, id: \.id) { episode in
-                    Text(episode.name)
-                }
+                .padding(.horizontal)
             }
-        }
         .onAppear {
             Task {
                 await viewModel.getCharacterEpisodesData(url: character.episode)
@@ -98,5 +134,5 @@ struct CharacterMoreInfoView: View {
 }
 
 #Preview {
-    CharacterMoreInfoView(character: CharacterItem(id: 0, name: "Rick Sanchez", status: "Alive", species: "Human", type:"",gender:"Male",origin:OriginAndLocation(name:"Earth(C-137)",url:"https://rickandmortyapi.com/api/location/1"),location: OriginAndLocation(name: "Citadel of Ricks", url: "https://rickandmortyapi.com/api/location/3"), image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", episode: ["https://rickandmortyapi.com/api/episode/1","https://rickandmortyapi.com/api/episode/2","https://rickandmortyapi.com/api/episode/3"], url: "https://rickandmortyapi.com/api/character/1", created: "2017-11-04T18:48:46.250Z"))
+    CharacterMoreInfoView(character: CharacterItem(id: 0, name: "Rick Sanchez", status: "Alive", species: "Human", type:"Robot",gender:"Male",origin:OriginAndLocation(name:"Earth(C-137)",url:"https://rickandmortyapi.com/api/location/1"),location: OriginAndLocation(name: "Citadel of Ricks", url: "https://rickandmortyapi.com/api/location/3"), image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg", episode: ["https://rickandmortyapi.com/api/episode/1","https://rickandmortyapi.com/api/episode/2","https://rickandmortyapi.com/api/episode/3"], url: "https://rickandmortyapi.com/api/character/1", created: "2017-11-04T18:48:46.250Z"))
 }

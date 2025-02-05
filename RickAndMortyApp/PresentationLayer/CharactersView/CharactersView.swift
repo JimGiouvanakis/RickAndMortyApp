@@ -46,9 +46,6 @@ struct CharactersView: View {
                                     }
                             }
                         }
-                        //                        .sheet(isPresented: $showMoreInfo) {
-                        //                            EmptyView()
-                        //                        }
                         
                         makePreviousNextButton()
                     }
