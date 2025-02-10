@@ -12,6 +12,8 @@ struct LocationsView: View {
     @StateObject var viewModel = LocationViewModel()
     @StateObject var appViewModel = AppViewModel()
     
+    @Environment(\.appCoordinator) var appCoordinator: AppCoordinator
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -31,33 +33,39 @@ struct LocationsView: View {
                     
                     
                     ForEach(viewModel.locations.indices, id: \.self) { index in
-                        VStack(alignment: .leading) {
-                            
-                            Text("Name: \(viewModel.locations[index].name)")
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            Text("Type: \(viewModel.locations[index].type)")
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            Text(viewModel.locations[index].dimension == "unknown" ? "Dimenstion Unknown": viewModel.locations[index].dimension)
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            
-                            
-                            characterImage(residents: viewModel.locations[index].residents)
-                                .padding(.horizontal)
+                        Button {
+                            appCoordinator.push(page: .location(location: viewModel.locations[index]))
+                        } label: {
+                            VStack(alignment: .leading) {
+                                
+                                Text("Name: \(viewModel.locations[index].name)")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                
+                                Text("Type: \(viewModel.locations[index].type)")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                
+                                Text(viewModel.locations[index].dimension == "unknown" ? "Dimenstion Unknown": viewModel.locations[index].dimension)
+                                    .font(.system(size: 20))
+                                    .bold()
+                                
+                                
+                                
+                                characterImage(residents: viewModel.locations[index].residents)
+                                    .padding(.horizontal)
+                            }
+                            .foregroundColor(Color.App.episodeBackgroundGreen)
+                            .padding(.leading,10)
+                            .frame(width: UIScreen.main.bounds.width * 0.9 ,height: UIScreen.main.bounds.height * 0.2,alignment: .leading)
+                            .background (
+                                RoundedRectangle(cornerRadius: 10)
+                                    .foregroundColor(Color.App.episodeTextWhite)
+                                    .cornerRadius(10)
+                            )
                         }
-                        .foregroundColor(Color.App.episodeBackgroundGreen)
-                        .padding(.leading,10)
-                        .frame(width: UIScreen.main.bounds.width * 0.9 ,height: UIScreen.main.bounds.height * 0.2,alignment: .leading)
-                        .background (
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(Color.App.episodeTextWhite)
-                                .cornerRadius(10)
-                        )
+
+
                         
                         if index % 3 == 0 && index != 0 {
                             HStack {

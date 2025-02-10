@@ -1,5 +1,5 @@
 //
-//  EpisodeMoreInfoView.swift
+//  LocationMoreInfoView.swift
 //  RickAndMortyApp
 //
 //  Created by Dimitris Giouvanakis on 10/2/25.
@@ -7,13 +7,11 @@
 
 import SwiftUI
 
-struct EpisodeMoreInfoView: View {
+struct LocationMoreInfoView: View {
     
-    @StateObject var viewModel = EpisodeMoreInforViewModel()
+    @StateObject var viewModel = LocationMoreInfoViewModel()
     
-    @StateObject var appViewModel = AppViewModel()
-    
-    @State var episode: EpisodeItem
+    @State var location: LocationItem
     
     @Environment(\.appCoordinator) var appCoordinator: AppCoordinator
     
@@ -25,7 +23,7 @@ struct EpisodeMoreInfoView: View {
     var body: some View {
         ScrollView {
             
-            Text(episode.name)
+            Text(location.name)
                 .font(.system(size: 40))
                 .bold()
                 .foregroundStyle(Color.App.episodeBackgroundGreen)
@@ -37,39 +35,38 @@ struct EpisodeMoreInfoView: View {
                             .font(.system(size: 15))
                             .opacity(0.7)
                         
-                        Text(episode.name)
-                            .font(.system(size: 20))
-                    }
-                    .padding(.top)
-                    
-                    
-                    HStack {
-                        Text("Air Date:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(episode.air_date)
+                        Text(location.name)
                             .font(.system(size: 20))
                     }
                     .padding(.top)
                     
                     HStack {
-                        Text("Episode:")
+                        Text("Type:")
                             .font(.system(size: 15))
                             .opacity(0.5)
                         
-                        Text(episode.episode)
+                        Text(location.type)
                             .font(.system(size: 20))
                     }
                     .padding(.top)
                     
-                    Text("Characters Present in the Episode:")
+                    HStack {
+                        Text("Dimension:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(location.dimension)
+                            .font(.system(size: 20))
+                    }
+                    .padding(.top)
+                    
+                    Text("Residents of the planet:")
                         .font(.system(size: 15))
                         .opacity(0.5)
                         .padding(.top)
                     
                     LazyVGrid(columns: columns) {
-                        ForEach(viewModel.episodeCharacters, id: \.id) { character in
+                        ForEach(viewModel.residents, id: \.id) { character in
                             CharacterCardView(character: character)
                                 .onTapGesture {
                                     appCoordinator.push(page: .character(character: character))
@@ -81,20 +78,21 @@ struct EpisodeMoreInfoView: View {
                 .padding()
                 
                 Spacer()
-                Image("ImageTest2")
+                
+                Image("LocationImage")
                     .resizable()
-                    .frame(width: UIScreen.main.bounds.width, height:UIScreen.main.bounds.height * 0.4)
-            }
-            .onAppear {
-                Task {
-                    await viewModel.getCharacterEpisodesData(url: episode.characters)
-                }
+                    .frame(width: UIScreen.main.bounds.width * 0.8, height:UIScreen.main.bounds.height * 0.4)
             }
         }
         .ignoresSafeArea(.all, edges: .bottom)
+        .onAppear {
+            Task {
+                await viewModel.getCharacterEpisodesData(url: location.residents)
+            }
+        }
     }
 }
 
 #Preview {
-    EpisodeMoreInfoView(episode: EpisodeItem(id: 0, name: "Pilot", air_date: "December 2,2013", episode: "SO1E01", characters: ["https://rickandmortyapi.com/api/character/179","https://rickandmortyapi.com/api/character/394","https://rickandmortyapi.com/api/character/12"], url: "https://rickandmortyapi.com/api/episode/1", created: "2017-11-10T12:56:33.798Z"))
+    LocationMoreInfoView(location: LocationItem(id: 0, name: "Earth (C-137)", type: "Planet", dimension: "Dimension C-137", residents: ["https://rickandmortyapi.com/api/character/127","https://rickandmortyapi.com/api/character/1","https://rickandmortyapi.com/api/character/12"], url: "https://rickandmortyapi.com/api/location/1", created: "2017-11-10T12:42:04.162Z"))
 }

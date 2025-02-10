@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct LocationItem: Identifiable, Equatable  {
+struct LocationItem: Identifiable, Equatable, Hashable  {
     static func == (lhs: LocationItem, rhs: LocationItem) -> Bool {
         return lhs.id == rhs.id
     }

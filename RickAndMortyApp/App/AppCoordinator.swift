@@ -13,6 +13,7 @@ enum AppCoordinatorPage: Hashable, View {
     case home
     case character(character: CharacterItem)
     case episode(episode: EpisodeItem)
+    case location(location: LocationItem)
     
     var body: some View {
         switch self {
@@ -22,6 +23,8 @@ enum AppCoordinatorPage: Hashable, View {
             CharacterMoreInfoView(character: character)
         case .episode(let episode):
             EpisodeMoreInfoView(episode: episode)
+        case .location(let location):
+            LocationMoreInfoView(location: location)
         }
     }
 }
@@ -56,6 +59,7 @@ struct AppCoordinatorView: View {
             AppCoordinatorPage.home
                 .navigationDestination(for: AppCoordinatorPage.self) { $0 }
         }
+        .accentColor(Color.App.tabBarSelectionGreen)
         .environment(\.appCoordinator, coordinator)
     }
 }

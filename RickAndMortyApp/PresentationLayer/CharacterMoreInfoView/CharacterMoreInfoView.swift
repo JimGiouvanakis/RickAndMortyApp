@@ -18,31 +18,28 @@ struct CharacterMoreInfoView: View {
     @Environment(\.appCoordinator) var appCoordinator: AppCoordinator
     
     let columns = [
-        GridItem(.adaptive(minimum: 70))
+        GridItem(.adaptive(minimum: 80))
     ]
     
     var body: some View {
         ScrollView {
+            
+            Text(character.name)
+                .font(.system(size: 40))
+                .bold()
+                .foregroundStyle(Color.App.episodeBackgroundGreen)
+            
             VStack(alignment: .leading) {
                 RemoteImageView(url: appViewModel.getImageURL(url: character.image))
 //                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
                     .clipShape(.circle)
                     .background (
                         Circle()
-                            .stroke(Color.App.episodeTextBlue, lineWidth: 4)
+                            .stroke(Color.App.episodeBackgroundGreen, lineWidth: 4)
 //                            .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
-                            .shadow(color: Color.App.episodeTextBlue, radius: 10, x: 5, y: 5)
+                            .shadow(color: Color.App.episodeBackgroundGreen, radius: 10, x: 5, y: 5)
                     )
                     .padding(.leading,20)
-                
-                HStack {
-                    Text("Name:")
-                        .font(.system(size: 15))
-                        .opacity(0.5)
-                    
-                    Text(character.name)
-                        .font(.system(size: 20))
-                }
                 
                 HStack {
                     Text("Gender:")
@@ -106,13 +103,17 @@ struct CharacterMoreInfoView: View {
                 LazyVGrid(columns: columns) {
                     ForEach(viewModel.characterEpisodes, id: \.id) { episode in
                         Text(episode.episode)
-                            .foregroundColor(Color.App.episodeTextBlue)
+                            .padding(10)
+                            .foregroundColor(Color.App.white)
+                            .background(Color.App.episodeBackgroundGreen)
+                            .cornerRadius(20)
                             .onTapGesture {
                                 appCoordinator.push(page: .episode(episode: episode))
                             }
                     }
                 }
             }
+            .foregroundColor(Color.App.episodeBackgroundGreen)
             .padding(.horizontal)
         }
         .onAppear {

@@ -11,8 +11,6 @@ import SwiftUI
 struct CharactersView: View {
     
     @StateObject var viewModel = CharactersViewModel()
-    @Binding var showMoreInfo: Bool
-    @Binding var selectedCharacter: CharacterItem?
     
     @Environment(\.appCoordinator) var appCoordinator: AppCoordinator
     
