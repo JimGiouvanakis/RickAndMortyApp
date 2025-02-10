@@ -22,107 +22,99 @@ struct CharacterMoreInfoView: View {
     ]
     
     var body: some View {
-            ScrollView {
-                VStack(alignment: .leading) {
-                    RemoteImageView(url: appViewModel.getImageURL(url: character.image))
-                        .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
-                        .clipShape(.circle)
-                        .background (
-                            Circle()
-                                .stroke(Color.App.episodeTextBlue, lineWidth: 4)
-                                .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
-                                .shadow(color: Color.App.episodeTextBlue, radius: 10, x: 5, y: 5)
-                        )
-                        .padding(.leading,20)
-                    
-                    HStack {
-                        Text("Name:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(character.name)
-                            .font(.system(size: 20))
-                    }
-                    
-                    HStack {
-                        Text("Gender:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(character.gender)
-                            .font(.system(size: 20))
-                    }
-                    
-                    HStack {
-                        Text("Status:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(character.status)
-                            .font(.system(size: 20))
-                    }
-                    
-                    HStack {
-                        Text("Species:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(character.species)
-                            .font(.system(size: 20))
-                    }
-                    
-                    if character.type != "" {
-                        HStack {
-                            Text("Type:")
-                                .font(.system(size: 15))
-                                .opacity(0.5)
-                            
-                            Text(character.type)
-                                .font(.system(size: 20))
-                        }
-                    }
-                    
-                    HStack {
-                        Text("Origin Planet:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(character.origin.name)
-                            .font(.system(size: 20))
-                    }
-                    
-                    HStack {
-                        Text("Last Location:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(character.location.name)
-                            .font(.system(size: 20))
-                    }
-                    
-//                    Button {
-//                        appCoordinator.pop()
-//                    } label: {
-//                        Text("Go back")
-//                    }
-//                    
-//                    Button {
-//                        appCoordinator.popToRoot()
-//                    } label: {
-//                        Text("Go home")
-//                    }
-                    
-                    Text("Present in episodes:")
+        ScrollView {
+            VStack(alignment: .leading) {
+                RemoteImageView(url: appViewModel.getImageURL(url: character.image))
+//                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
+                    .clipShape(.circle)
+                    .background (
+                        Circle()
+                            .stroke(Color.App.episodeTextBlue, lineWidth: 4)
+//                            .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
+                            .shadow(color: Color.App.episodeTextBlue, radius: 10, x: 5, y: 5)
+                    )
+                    .padding(.leading,20)
+                
+                HStack {
+                    Text("Name:")
                         .font(.system(size: 15))
                         .opacity(0.5)
-                    LazyVGrid(columns: columns) {
-                        ForEach(viewModel.characterEpisodes, id: \.id) { episode in
-                            Text(episode.episode)
-                        }
+                    
+                    Text(character.name)
+                        .font(.system(size: 20))
+                }
+                
+                HStack {
+                    Text("Gender:")
+                        .font(.system(size: 15))
+                        .opacity(0.5)
+                    
+                    Text(character.gender)
+                        .font(.system(size: 20))
+                }
+                
+                HStack {
+                    Text("Status:")
+                        .font(.system(size: 15))
+                        .opacity(0.5)
+                    
+                    Text(character.status)
+                        .font(.system(size: 20))
+                }
+                
+                HStack {
+                    Text("Species:")
+                        .font(.system(size: 15))
+                        .opacity(0.5)
+                    
+                    Text(character.species)
+                        .font(.system(size: 20))
+                }
+                
+                if character.type != "" {
+                    HStack {
+                        Text("Type:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(character.type)
+                            .font(.system(size: 20))
                     }
                 }
-                .padding(.horizontal)
+                
+                HStack {
+                    Text("Origin Planet:")
+                        .font(.system(size: 15))
+                        .opacity(0.5)
+                    
+                    Text(character.origin.name)
+                        .font(.system(size: 20))
+                }
+                
+                HStack {
+                    Text("Last Location:")
+                        .font(.system(size: 15))
+                        .opacity(0.5)
+                    
+                    Text(character.location.name)
+                        .font(.system(size: 20))
+                }
+                
+                Text("Present in episodes:")
+                    .font(.system(size: 15))
+                    .opacity(0.5)
+                LazyVGrid(columns: columns) {
+                    ForEach(viewModel.characterEpisodes, id: \.id) { episode in
+                        Text(episode.episode)
+                            .foregroundColor(Color.App.episodeTextBlue)
+                            .onTapGesture {
+                                appCoordinator.push(page: .episode(episode: episode))
+                            }
+                    }
+                }
             }
+            .padding(.horizontal)
+        }
         .onAppear {
             Task {
                 await viewModel.getCharacterEpisodesData(url: character.episode)

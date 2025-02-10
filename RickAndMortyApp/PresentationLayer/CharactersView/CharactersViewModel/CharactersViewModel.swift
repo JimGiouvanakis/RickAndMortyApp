@@ -15,6 +15,7 @@ class CharactersViewModel: ObservableObject {
     @Published var characters: [CharacterItem] = []
     @Published var charactersInfo: Info = Info(count: 0, pages: 0, next: "", prev: "")
 
+
     func setup() async {
         await getData()
     }

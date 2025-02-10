@@ -14,6 +14,8 @@ struct EpisodesView: View {
     
     @State private var readMoreTapped: Bool = false
     
+    @Environment(\.appCoordinator) var appCoordinator: AppCoordinator
+    
     var body: some View {
         VStack {
             ScrollView {
@@ -32,31 +34,36 @@ struct EpisodesView: View {
                     }
                     
                     ForEach(viewModel.episodes, id: \.id) { episode in
-                        VStack(alignment: .leading) {
-                            Text("Episode \(episode.episode)")
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            Text(episode.name)
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            Text("Aired on \(episode.air_date)")
-                                .font(.system(size: 20))
-                                .bold()
-                            
-                            
-                            characterImage(characters: episode.characters)
-                                .padding(.horizontal)
+                        Button {
+                            appCoordinator.push(page: .episode(episode: episode))
+                        } label: {
+                            VStack(alignment: .leading) {
+                                Text("Episode \(episode.episode)")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                
+                                Text(episode.name)
+                                    .font(.system(size: 20))
+                                    .bold()
+                                
+                                Text("Aired on \(episode.air_date)")
+                                    .font(.system(size: 20))
+                                    .bold()
+                                
+                                characterImage(characters: episode.characters)
+                                    .padding(.horizontal)
+                            }
+                            .foregroundColor(Color.App.episodeBackgroundGreen)
+                            .padding(.leading,10)
+                            .frame(width: UIScreen.main.bounds.width * 0.9 ,height: UIScreen.main.bounds.height * 0.2,alignment: .leading)
+                            .background (
+                                RoundedRectangle(cornerRadius: 10)
+                                    .foregroundColor(Color.App.episodeTextWhite)
+                                    .cornerRadius(10)
+                            )
                         }
-                        .foregroundColor(Color.App.episodeBackgroundGreen)
-                        .padding(.leading,10)
-                        .frame(width: UIScreen.main.bounds.width * 0.9 ,height: UIScreen.main.bounds.height * 0.2,alignment: .leading)
-                        .background (
-                            RoundedRectangle(cornerRadius: 10)
-                                .foregroundColor(Color.App.episodeTextWhite)
-                                .cornerRadius(10)
-                        )
+
+
                         
                     }
                 }

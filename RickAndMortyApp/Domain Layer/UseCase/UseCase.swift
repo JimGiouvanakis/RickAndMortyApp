@@ -40,6 +40,11 @@ struct UseCase {
         return character
     }
     
+    func executeEpisodeCharacters(url: [String]) async  -> [CharacterItem] {
+        let characters = await repository.getEpisodeCharactersData(url: url)
+        return characters
+    }
+    
     
 //    func executeEpisodeCharacterData(url: String) async  -> Character {
 //        let character = await repository.getEpisodeCharacterData(url: url)

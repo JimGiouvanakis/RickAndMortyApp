@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EpisodeItem: Identifiable, Equatable  {
+struct EpisodeItem: Identifiable, Equatable, Hashable  {
     static func == (lhs: EpisodeItem, rhs: EpisodeItem) -> Bool {
         return lhs.id == rhs.id
     }

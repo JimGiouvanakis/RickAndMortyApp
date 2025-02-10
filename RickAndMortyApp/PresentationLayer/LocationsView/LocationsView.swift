@@ -29,22 +29,25 @@ struct LocationsView: View {
                             .frame(width: UIScreen.main.bounds.width * 0.2, height: UIScreen.main.bounds.height * 0.1)
                     }
                     
-                    ForEach(viewModel.locations, id: \.id) { location in
+                    
+                    ForEach(viewModel.locations.indices, id: \.self) { index in
                         VStack(alignment: .leading) {
-                            Text("Name: \(location.name)")
+                            
+                            Text("Name: \(viewModel.locations[index].name)")
                                 .font(.system(size: 20))
                                 .bold()
                             
-                            Text("Type: \(location.type)")
+                            Text("Type: \(viewModel.locations[index].type)")
                                 .font(.system(size: 20))
                                 .bold()
                             
-                            Text(location.dimension)
+                            Text(viewModel.locations[index].dimension == "unknown" ? "Dimenstion Unknown": viewModel.locations[index].dimension)
                                 .font(.system(size: 20))
                                 .bold()
                             
                             
-                            characterImage(residents: location.residents)
+                            
+                            characterImage(residents: viewModel.locations[index].residents)
                                 .padding(.horizontal)
                         }
                         .foregroundColor(Color.App.episodeBackgroundGreen)
@@ -56,6 +59,17 @@ struct LocationsView: View {
                                 .cornerRadius(10)
                         )
                         
+                        if index % 3 == 0 && index != 0 {
+                            HStack {
+                                Spacer()
+                                
+                                Image("ImageTest")
+                                    .resizable()
+                                    .frame(width: 300,height: UIScreen.main.bounds.height * 0.4,alignment: .center)
+                                
+                                Spacer()
+                            }
+                        }
                     }
                 }
                 makePreviousNextButton()
@@ -77,8 +91,8 @@ struct LocationsView: View {
             LazyVGrid(columns: columns) {
                 ForEach(numberOfResidents.prefix(6), id: \.self) { url in
                     RemoteImageView(url: appViewModel.getImageURL(url: url))
-                    .frame(width: 40, height: 40)
-                    .clipShape(.rect(cornerRadius: 25))
+                        .frame(width: 40, height: 40)
+                        .clipShape(.rect(cornerRadius: 25))
                 }
             }
             
@@ -138,6 +152,6 @@ struct LocationsView: View {
     
 }
 
-//#Preview {
-//    ContentView()
-//}
+#Preview {
+    ContentView()
+}

@@ -46,7 +46,6 @@ struct CharactersView: View {
                                     }
                             }
                         }
-                        
                         makePreviousNextButton()
                     }
                 }

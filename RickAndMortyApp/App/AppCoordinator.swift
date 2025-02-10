@@ -12,6 +12,7 @@ enum AppCoordinatorPage: Hashable, View {
     
     case home
     case character(character: CharacterItem)
+    case episode(episode: EpisodeItem)
     
     var body: some View {
         switch self {
@@ -19,6 +20,8 @@ enum AppCoordinatorPage: Hashable, View {
             ContentView()
         case .character(let character):
             CharacterMoreInfoView(character: character)
+        case .episode(let episode):
+            EpisodeMoreInfoView(episode: episode)
         }
     }
 }
