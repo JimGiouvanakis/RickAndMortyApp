@@ -40,6 +40,8 @@ struct CharacterMoreInfoView: View {
                             .shadow(color: Color.App.episodeBackgroundGreen, radius: 10, x: 5, y: 5)
                     )
                     .padding(.leading,20)
+                    .accessibilityLabel("Image of \(character.name)")
+                    .accessibilityRemoveTraits(.isImage)
                 
                 HStack {
                     Text("Gender:")
@@ -110,6 +112,7 @@ struct CharacterMoreInfoView: View {
                             .onTapGesture {
                                 appCoordinator.push(page: .episode(episode: episode))
                             }
+                            .accessibilityAddTraits(.isButton)
                     }
                 }
             }

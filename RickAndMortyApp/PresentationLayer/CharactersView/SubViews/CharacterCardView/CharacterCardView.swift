@@ -31,6 +31,9 @@ struct CharacterCardView: View {
                                 .background(Color.App.cardDardGrayShadow.opacity(0.6))
                                 .cornerRadius(8)
                         })
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("Image of \(character.name)")
+                        .accessibilityAddTraits(.isButton)
     }
 }
 
