@@ -71,9 +71,10 @@ struct LocationsView: View {
                             HStack {
                                 Spacer()
                                 
-                                Image("ImageTest")
+                                Image("LocationSplitImage")
                                     .resizable()
                                     .frame(width: 300,height: UIScreen.main.bounds.height * 0.4,alignment: .center)
+                                    .accessibilityLabel("Rick and Morty Drop from Portal")
                                 
                                 Spacer()
                             }

@@ -19,12 +19,16 @@ enum AppCoordinatorPage: Hashable, View {
         switch self {
         case .home:
             ContentView()
+                .navigationBarBackButtonHidden(true)
         case .character(let character):
             CharacterMoreInfoView(character: character)
+                .navigationBarBackButtonHidden(true)
         case .episode(let episode):
             EpisodeMoreInfoView(episode: episode)
+                .navigationBarBackButtonHidden(true)
         case .location(let location):
             LocationMoreInfoView(location: location)
+                .navigationBarBackButtonHidden(true)
         }
     }
 }
@@ -56,10 +60,10 @@ struct AppCoordinatorView: View {
     
     var body: some View {
         NavigationStack(path: $coordinator.path) {
-            AppCoordinatorPage.home
-                .navigationDestination(for: AppCoordinatorPage.self) { $0 }
+                AppCoordinatorPage.home
+                    .navigationDestination(for: AppCoordinatorPage.self) { $0 }
+                    
         }
-        .accentColor(Color.App.tabBarSelectionGreen)
         .environment(\.appCoordinator, coordinator)
     }
 }
