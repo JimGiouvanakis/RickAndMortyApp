@@ -84,7 +84,7 @@ struct EpisodeMoreInfoView: View {
                     .padding()
                     
                     Spacer()
-                    Image("ImageTest2")
+                    Image("EpisodeMoreInfoImage")
                         .resizable()
                         .frame(width: UIScreen.main.bounds.width, height:UIScreen.main.bounds.height * 0.4)
                 }
