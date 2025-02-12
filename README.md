@@ -19,4 +19,4 @@ This project is built as an educational exercise, so the design is intentionally
 
 ## Credits
 - Data provided by [Rick and Morty API](https://rickandmortyapi.com/)
-- Idea and Ispiration is from IOS Academy that did the same thing in UIKit [Check the video](https://rickandmortyapi.com/](https://www.youtube.com/watch?v=EZpZDuOAFKE&list=PL5PR3UyfTWvdl4Ya_2veOB6TM16FXuv4y)
+- Idea and Ispiration is from IOS Academy that did the same thing in UIKit [Check the video](https://www.youtube.com/watch?v=EZpZDuOAFKE&list=PL5PR3UyfTWvdl4Ya_2veOB6TM16FXuv4y)
