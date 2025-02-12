@@ -15,6 +15,7 @@ A simple and fun Rick and Morty app that fetches character, episode, and locatio
 This project is built as an educational exercise, so the design is intentionally kept simple and minimalistic to focus on functionality and learning.  
 
 ## Live Demo
+![RickAndMortyApp Demo](https://github.com/user-attachments/assets/387412df-684b-4a59-946a-e98a1f9cdc0a)
 
 
 ## Credits
