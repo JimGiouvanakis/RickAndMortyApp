@@ -21,76 +21,122 @@ struct LocationMoreInfoView: View {
     ]
     
     var body: some View {
-        ScrollView {
+        
+        VStack {
             
-            Text(location.name)
-                .font(.system(size: 40))
-                .bold()
-                .foregroundStyle(Color.App.episodeBackgroundGreen)
+            makeHeaderButtons()
             
-            VStack {
-                VStack(alignment: .leading) {
-                    HStack {
-                        Text("Name:")
-                            .font(.system(size: 15))
-                            .opacity(0.7)
-                        
-                        Text(location.name)
-                            .font(.system(size: 20))
-                    }
-                    .padding(.top)
-                    
-                    HStack {
-                        Text("Type:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(location.type)
-                            .font(.system(size: 20))
-                    }
-                    .padding(.top)
-                    
-                    HStack {
-                        Text("Dimension:")
-                            .font(.system(size: 15))
-                            .opacity(0.5)
-                        
-                        Text(location.dimension)
-                            .font(.system(size: 20))
-                    }
-                    .padding(.top)
-                    
-                    Text("Residents of the planet:")
-                        .font(.system(size: 15))
-                        .opacity(0.5)
+            ScrollView {
+                
+                Text(location.name)
+                    .font(.system(size: 40))
+                    .bold()
+                    .foregroundStyle(Color.App.episodeBackgroundGreen)
+                
+                VStack {
+                    VStack(alignment: .leading) {
+                        HStack {
+                            Text("Name:")
+                                .font(.system(size: 15))
+                                .opacity(0.7)
+                            
+                            Text(location.name)
+                                .font(.system(size: 20))
+                        }
                         .padding(.top)
-                    
-                    LazyVGrid(columns: columns) {
-                        ForEach(viewModel.residents, id: \.id) { character in
-                            CharacterCardView(character: character)
-                                .onTapGesture {
-                                    appCoordinator.push(page: .character(character: character))
-                                }
+                        
+                        HStack {
+                            Text("Type:")
+                                .font(.system(size: 15))
+                                .opacity(0.5)
+                            
+                            Text(location.type)
+                                .font(.system(size: 20))
+                        }
+                        .padding(.top)
+                        
+                        HStack {
+                            Text("Dimension:")
+                                .font(.system(size: 15))
+                                .opacity(0.5)
+                            
+                            Text(location.dimension)
+                                .font(.system(size: 20))
+                        }
+                        .padding(.top)
+                        
+                        Text("Residents of the planet:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                            .padding(.top)
+                        
+                        LazyVGrid(columns: columns) {
+                            ForEach(viewModel.residents, id: \.id) { character in
+                                CharacterCardView(character: character)
+                                    .onTapGesture {
+                                        appCoordinator.push(page: .character(character: character))
+                                    }
+                            }
                         }
                     }
+                    .foregroundColor(Color.App.episodeBackgroundGreen)
+                    .padding()
+                    
+                    Spacer()
+                    
+                    Image("LocationImage")
+                        .resizable()
+                        .frame(width: UIScreen.main.bounds.width * 0.8, height:UIScreen.main.bounds.height * 0.4)
                 }
-                .foregroundColor(Color.App.episodeBackgroundGreen)
-                .padding()
-                
-                Spacer()
-                
-                Image("LocationImage")
-                    .resizable()
-                    .frame(width: UIScreen.main.bounds.width * 0.8, height:UIScreen.main.bounds.height * 0.4)
             }
-        }
-        .ignoresSafeArea(.all, edges: .bottom)
-        .onAppear {
-            Task {
-                await viewModel.getCharacterEpisodesData(url: location.residents)
+            .ignoresSafeArea(.all, edges: .bottom)
+            .onAppear {
+                Task {
+                    await viewModel.getCharacterEpisodesData(url: location.residents)
+                }
             }
         }
     }
+    
+    @ViewBuilder
+    func makeHeaderButtons() -> some View {
+        HStack {
+            Button {
+                appCoordinator.pop(1)
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "chevron.backward")
+                        .resizable()
+                        .frame(width: 10, height: 10)
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                    
+                    Text("Go Back")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                }
+            }
+            
+            Spacer()
+            
+            Button {
+                appCoordinator.popToRoot()
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "house")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                    
+                    Text("Go Home")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                }
+            }
+        }
+        .bold()
+        .padding()
+    }
+    
 }
 
 #Preview {

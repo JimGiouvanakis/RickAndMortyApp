@@ -22,110 +22,175 @@ struct CharacterMoreInfoView: View {
     ]
     
     var body: some View {
-        ScrollView {
+        
+        VStack {
             
-            Text(character.name)
-                .font(.system(size: 40))
-                .bold()
-                .foregroundStyle(Color.App.episodeBackgroundGreen)
+            makeHeaderButtons()
             
-            VStack(alignment: .leading) {
-                RemoteImageView(url: appViewModel.getImageURL(url: character.image))
-//                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
-                    .clipShape(.circle)
-                    .background (
-                        Circle()
-                            .stroke(Color.App.episodeBackgroundGreen, lineWidth: 4)
-//                            .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
-                            .shadow(color: Color.App.episodeBackgroundGreen, radius: 10, x: 5, y: 5)
-                    )
-                    .padding(.leading,20)
-                    .accessibilityLabel("Image of \(character.name)")
-                    .accessibilityRemoveTraits(.isImage)
+            
+            ScrollView {
                 
-                HStack {
-                    Text("Gender:")
-                        .font(.system(size: 15))
-                        .opacity(0.5)
+                Text(character.name)
+                    .font(.system(size: 40))
+                    .bold()
+                    .foregroundStyle(Color.App.episodeBackgroundGreen)
+                
+                VStack(alignment: .leading) {
+                    RemoteImageView(url: appViewModel.getImageURL(url: character.image))
+                    //                    .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
+                        .clipShape(.circle)
+                        .background (
+                            Circle()
+                                .stroke(Color.App.episodeBackgroundGreen, lineWidth: 4)
+                            //                            .frame(width: UIScreen.main.bounds.width * 0.8, height: UIScreen.main.bounds.width * 0.8)
+                                .shadow(color: Color.App.episodeBackgroundGreen, radius: 10, x: 5, y: 5)
+                        )
+                        .padding(.leading,20)
+                        .accessibilityLabel("Image of \(character.name)")
+                        .accessibilityRemoveTraits(.isImage)
                     
-                    Text(character.gender)
-                        .font(.system(size: 20))
-                }
-                
-                HStack {
-                    Text("Status:")
-                        .font(.system(size: 15))
-                        .opacity(0.5)
-                    
-                    Text(character.status)
-                        .font(.system(size: 20))
-                }
-                
-                HStack {
-                    Text("Species:")
-                        .font(.system(size: 15))
-                        .opacity(0.5)
-                    
-                    Text(character.species)
-                        .font(.system(size: 20))
-                }
-                
-                if character.type != "" {
                     HStack {
-                        Text("Type:")
+                        Text("Gender:")
                             .font(.system(size: 15))
                             .opacity(0.5)
                         
-                        Text(character.type)
+                        Text(character.gender)
                             .font(.system(size: 20))
                     }
-                }
-                
-                HStack {
-                    Text("Origin Planet:")
+                    
+                    HStack {
+                        Text("Status:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(character.status)
+                            .font(.system(size: 20))
+                    }
+                    
+                    HStack {
+                        Text("Species:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                        
+                        Text(character.species)
+                            .font(.system(size: 20))
+                    }
+                    
+                    if character.type != "" {
+                        HStack {
+                            Text("Type:")
+                                .font(.system(size: 15))
+                                .opacity(0.5)
+                            
+                            Text(character.type)
+                                .font(.system(size: 20))
+                        }
+                    }
+                    HStack {
+                        Text("Origin Planet:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                    
+                    Button {
+                        if character.origin.name != "unknown" {
+                            appCoordinator.push(page: .location(location: viewModel.characterOriginLocation))
+                        }
+                    } label: {
+                            Text(character.origin.name)
+                                .font(.system(size: 20))
+                                .padding(10)
+                                .foregroundColor(Color.App.white)
+                                .background(Color.App.episodeBackgroundGreen)
+                                .cornerRadius(20)
+                        }
+                    }
+                    
+                    HStack {
+                        Text("Last Location:")
+                            .font(.system(size: 15))
+                            .opacity(0.5)
+                    
+                    Button {
+                        if character.location.name != "unknown" {
+                        appCoordinator.push(page: .location(location: viewModel.characterLocation))
+                        }
+                    } label: {
+                            Text(character.location.name)
+                                .font(.system(size: 20))
+                                .padding(10)
+                                .foregroundColor(Color.App.white)
+                                .background(Color.App.episodeBackgroundGreen)
+                                .cornerRadius(20)
+                        }
+                    }
+                    
+                    Text("Present in episodes:")
                         .font(.system(size: 15))
                         .opacity(0.5)
-                    
-                    Text(character.origin.name)
-                        .font(.system(size: 20))
-                }
-                
-                HStack {
-                    Text("Last Location:")
-                        .font(.system(size: 15))
-                        .opacity(0.5)
-                    
-                    Text(character.location.name)
-                        .font(.system(size: 20))
-                }
-                
-                Text("Present in episodes:")
-                    .font(.system(size: 15))
-                    .opacity(0.5)
-                LazyVGrid(columns: columns) {
-                    ForEach(viewModel.characterEpisodes, id: \.id) { episode in
-                        Text(episode.episode)
-                            .padding(10)
-                            .foregroundColor(Color.App.white)
-                            .background(Color.App.episodeBackgroundGreen)
-                            .cornerRadius(20)
-                            .onTapGesture {
-                                appCoordinator.push(page: .episode(episode: episode))
-                            }
-                            .accessibilityAddTraits(.isButton)
+                    LazyVGrid(columns: columns) {
+                        ForEach(viewModel.characterEpisodes, id: \.id) { episode in
+                            Text(episode.episode)
+                                .padding(10)
+                                .foregroundColor(Color.App.white)
+                                .background(Color.App.episodeBackgroundGreen)
+                                .cornerRadius(20)
+                                .onTapGesture {
+                                    appCoordinator.push(page: .episode(episode: episode))
+                                }
+                                .accessibilityAddTraits(.isButton)
+                        }
                     }
                 }
+                .foregroundColor(Color.App.episodeBackgroundGreen)
+                .padding(.horizontal)
             }
-            .foregroundColor(Color.App.episodeBackgroundGreen)
-            .padding(.horizontal)
-        }
-        .onAppear {
-            Task {
-                await viewModel.getCharacterEpisodesData(url: character.episode)
-                await viewModel.getCharacterLocationData(type: .location, url: character.location.url)
-                await viewModel.getCharacterLocationData(type: .origin, url: character.origin.url)
+            .onAppear {
+                Task {
+                    await viewModel.getCharacterEpisodesData(url: character.episode)
+                    await viewModel.getCharacterLocationData(type: .location, url: character.location.url)
+                    await viewModel.getCharacterLocationData(type: .origin, url: character.origin.url)
+                }
             }
         }
+    }
+    
+    @ViewBuilder
+    func makeHeaderButtons() -> some View {
+        HStack {
+            Button {
+                appCoordinator.pop(1)
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "chevron.backward")
+                        .resizable()
+                        .frame(width: 10, height: 10)
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                    
+                    Text("Go Back")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                }
+            }
+            
+            Spacer()
+            
+            Button {
+                appCoordinator.popToRoot()
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "house")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                    
+                    Text("Go Home")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                }
+            }
+        }
+        .bold()
+        .padding()
     }
 }
 

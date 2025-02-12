@@ -24,40 +24,7 @@ struct EpisodeMoreInfoView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Button {
-                    appCoordinator.pop(1)
-                } label: {
-                    HStack(spacing: 5) {
-                        Image(systemName: "chevron.backward")
-                            .resizable()
-                            .frame(width: 10, height: 10)
-                            .foregroundColor(Color.App.tabBarSelectionGreen)
-                        
-                        Text("Go Back")
-                            .font(.system(size: 20))
-                            .foregroundColor(Color.App.tabBarSelectionGreen)
-                    }
-                }
-                
-                Spacer()
-                
-                Button {
-                    appCoordinator.popToRoot()
-                } label: {
-                    HStack(spacing: 5) {
-                        Image(systemName: "house")
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                            .foregroundColor(Color.App.tabBarSelectionGreen)
-                        
-                        Text("Go Home")
-                            .font(.system(size: 20))
-                            .foregroundColor(Color.App.tabBarSelectionGreen)
-                    }
-                }
-            }
-            .padding()
+            makeHeaderButtons()
             
             ScrollView {
                 
@@ -129,6 +96,45 @@ struct EpisodeMoreInfoView: View {
             }
             .ignoresSafeArea(.all, edges: .bottom)
         }
+    }
+    
+    @ViewBuilder
+    func makeHeaderButtons() -> some View {
+        HStack {
+            Button {
+                appCoordinator.pop(1)
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "chevron.backward")
+                        .resizable()
+                        .frame(width: 10, height: 10)
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                    
+                    Text("Go Back")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                }
+            }
+            
+            Spacer()
+            
+            Button {
+                appCoordinator.popToRoot()
+            } label: {
+                HStack(spacing: 5) {
+                    Image(systemName: "house")
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                    
+                    Text("Go Home")
+                        .font(.system(size: 20))
+                        .foregroundColor(Color.App.tabBarSelectionGreen)
+                }
+            }
+        }
+        .bold()
+        .padding()
     }
 }
 
