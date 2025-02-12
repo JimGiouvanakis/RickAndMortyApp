@@ -8,7 +8,7 @@ A simple and fun Rick and Morty app that fetches character, episode, and locatio
 - Explore episodes and locations.  
 
 ## Tech Stack  
-- **Frontend:** SwiftUI  
+- **Frontend:** SwiftUI (IOS: 18.2)
 - **API:** [Rick and Morty API](https://rickandmortyapi.com/)  
 
 ## Design Note  
